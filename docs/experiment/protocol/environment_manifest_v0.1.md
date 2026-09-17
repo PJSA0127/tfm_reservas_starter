@@ -2,7 +2,7 @@
 
 ## Estado
 
-Validación local pre-GitHub completada; manifiesto aún no congelado.
+Validación local y calibración real CAL-01 completadas; reproducibilidad técnica en cierre pre-freeze.
 
 ## Código
 
@@ -31,7 +31,7 @@ Validación local pre-GitHub completada; manifiesto aún no congelado.
 | Uso | Referencia | Digest conocido |
 |---|---|---|
 | aplicación/tests | `python:3.14-slim` | `sha256:cad9a2c871761c413caa6fdd6441c783451e740a48aaeba60ae62a8b53525ef6` |
-| PostgreSQL | `postgres:18.6` | PENDIENTE |
+| PostgreSQL | `postgres:18.6` | `sha256:4ef4dbc939d61acea57712655ddb4b4ab27419c913f94cca0cd57cb3ea3c2280` |
 | Semgrep | `semgrep/semgrep:1.177.0-nonroot` | `sha256:012c8fe81c14da2d7691b90fcd826ce07f460a3301442b16c460575c87d3efb6` |
 | ZAP | `zaproxy/zap-stable:2.17.0` | `sha256:781a2bdaea47324e7bab583e2263f21d257b0aee61ed51521a5be45f5f5081ef` |
 
@@ -71,7 +71,7 @@ Validación local pre-GitHub completada; manifiesto aún no congelado.
 
 ## Dependencias transitivas
 
-**PENDIENTE:** congelación mediante mecanismo reproducible antes del freeze.
+`requirements.lock` congela las dependencias directas y transitivas observadas en CAL-01. La imagen base Python queda fijada por digest y proporciona pip 26.2.1.
 
 ## GitHub Actions — entorno adicional del proceso propuesto
 
@@ -80,17 +80,13 @@ El host local documentado anteriormente es el entorno común para las actividade
 | Elemento | Valor actual |
 |---|---|
 | Runner | `ubuntu-24.04` |
-| checkout | `actions/checkout@v7` |
-| upload artifact | `actions/upload-artifact@v7` |
+| checkout | `actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1` (`v7`) |
+| upload artifact | `actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a` (`v7`) |
 | Dependabot | `.github/dependabot.yml` limitado a `github-actions` |
-| Ejecución real | PENDIENTE |
+| Ejecución real | CAL-01 PASS - Run ID `35247019707` - commit `7cfa55bc7bc96d67112f37d19e681007ec19d425` |
 
 ## Pendientes de freeze
 
-- digest PostgreSQL;
 - Git exacto;
 - host exacto si se considera necesario;
-- lock transitivo;
 - commit/tags;
-- SHAs GitHub Actions;
-- datos del runner real.

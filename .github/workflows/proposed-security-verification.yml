@@ -33,7 +33,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Prepare laboratory environment
         run: cp .env.example .env
@@ -86,13 +86,13 @@ jobs:
           {
             echo
             echo "postgres_repo_digests="
-            docker image inspect postgres:18.6 \
+            docker image inspect postgres:18.6@sha256:4ef4dbc939d61acea57712655ddb4b4ab27419c913f94cca0cd57cb3ea3c2280 \
               --format '{{json .RepoDigests}}' 2>/dev/null || true
           } >> artifacts/pytest/functional-metadata.txt
 
       - name: Upload functional evidence
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: functional-${{ inputs.phase }}-${{ github.run_id }}
           path: |
@@ -113,7 +113,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Prepare laboratory environment
         run: cp .env.example .env
@@ -165,13 +165,13 @@ jobs:
           {
             echo
             echo "postgres_repo_digests="
-            docker image inspect postgres:18.6 \
+            docker image inspect postgres:18.6@sha256:4ef4dbc939d61acea57712655ddb4b4ab27419c913f94cca0cd57cb3ea3c2280 \
               --format '{{json .RepoDigests}}' 2>/dev/null || true
           } >> artifacts/pytest/security-metadata.txt
 
       - name: Upload security-test evidence
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: security-tests-${{ inputs.phase }}-${{ github.run_id }}
           path: |
@@ -192,7 +192,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Prepare laboratory environment
         run: cp .env.example .env
@@ -265,13 +265,13 @@ jobs:
             docker compose --profile security run --rm --no-deps semgrep \
               semgrep --version 2>/dev/null || true
             echo "semgrep_repo_digests="
-            docker image inspect semgrep/semgrep:1.177.0-nonroot \
+            docker image inspect semgrep/semgrep:1.177.0-nonroot@sha256:012c8fe81c14da2d7691b90fcd826ce07f460a3301442b16c460575c87d3efb6 \
               --format '{{json .RepoDigests}}' 2>/dev/null || true
           } >> artifacts/semgrep/semgrep-metadata.txt
 
       - name: Upload SAST evidence
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: semgrep-${{ inputs.phase }}-${{ github.run_id }}
           path: |
@@ -290,7 +290,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Prepare laboratory environment
         run: cp .env.example .env
@@ -401,16 +401,16 @@ jobs:
             docker compose --profile dast run --rm --no-deps zap \
               zap.sh -version 2>/dev/null || true
             echo "zap_repo_digests="
-            docker image inspect zaproxy/zap-stable:2.17.0 \
+            docker image inspect zaproxy/zap-stable:2.17.0@sha256:781a2bdaea47324e7bab583e2263f21d257b0aee61ed51521a5be45f5f5081ef \
               --format '{{json .RepoDigests}}' 2>/dev/null || true
             echo "postgres_repo_digests="
-            docker image inspect postgres:18.6 \
+            docker image inspect postgres:18.6@sha256:4ef4dbc939d61acea57712655ddb4b4ab27419c913f94cca0cd57cb3ea3c2280 \
               --format '{{json .RepoDigests}}' 2>/dev/null || true
           } >> artifacts/zap/zap-metadata.txt
 
       - name: Upload DAST evidence
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: zap-dast-${{ inputs.phase }}-${{ github.run_id }}
           path: |

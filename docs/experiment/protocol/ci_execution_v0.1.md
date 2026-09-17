@@ -2,7 +2,7 @@
 
 ## Estado
 
-La lógica del workflow fue simulada localmente con éxito. La ejecución real en GitHub Actions permanece pendiente.
+La lógica del workflow fue simulada localmente y validada mediante CAL-01 en GitHub Actions. El Run ID 35247019707 terminó correctamente sobre el commit 7cfa55bc7bc96d67112f37d19e681007ec19d425.
 
 ## Workflow
 
@@ -86,16 +86,11 @@ Hallazgos fuera de este mapeo se conservan como adicionales y no modifican autom
 
 Actualmente:
 
-- `actions/checkout@v7`;
-- `actions/upload-artifact@v7`;
+- `actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1` (`v7`);
+- `actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a` (`v7`);
 - `ubuntu-24.04`.
 
-Antes del freeze:
-
-- fijar Actions por SHA completo;
-- ejecutar calibración real;
-- conservar artifacts;
-- documentar `GITHUB_SHA` / `GITHUB_RUN_ID`.
+CAL-01 validó las referencias `v7` utilizadas originalmente. Antes del freeze, esas mismas revisiones quedan fijadas por SHA completo. Los artifacts de CAL-01 fueron conservados y se registraron `GITHUB_SHA=7cfa55bc7bc96d67112f37d19e681007ec19d425` y `GITHUB_RUN_ID=35247019707`.
 
 ## Dependabot
 
@@ -111,9 +106,8 @@ El tiempo humano de disparo, análisis y archivo = esfuerzo humano.
 
 ## Pendientes
 
-- ejecución real en GitHub;
-- SHAs inmutables;
-- validación de artifacts en runner real;
+- ejecutar CAL-02 sobre el entorno ya inmovilizado;
+
 - ejecución `pilot`;
 - ejecución `proposed-definitive`.
 
