@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Detalle de reserva{% endblock %}
+{% block content %}
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h1 class="h3">{{ reservation.guest_name }}</h1>
+    <dl class="row">
+      <dt class="col-sm-3">Correo</dt><dd class="col-sm-9">{{ reservation.guest_email }}</dd>
+      <dt class="col-sm-3">Fecha</dt><dd class="col-sm-9">{{ reservation.reservation_date }}</dd>
+      <dt class="col-sm-3">Personas</dt><dd class="col-sm-9">{{ reservation.party_size }}</dd>
+      <dt class="col-sm-3">Estado</dt><dd class="col-sm-9">{{ reservation.status }}</dd>
+      <dt class="col-sm-3">Notas</dt><dd class="col-sm-9">{{ reservation.notes }}</dd>
+    </dl>
+    <a class="btn btn-outline-primary" href="{{ url_for('reservations.edit', reservation_id=reservation.id) }}">Editar</a>
+    {% if reservation.status != 'CANCELLED' %}
+      <form method="post" action="{{ url_for('reservations.cancel', reservation_id=reservation.id) }}" class="d-inline">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button class="btn btn-outline-danger" type="submit">Cancelar reserva</button>
+      </form>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

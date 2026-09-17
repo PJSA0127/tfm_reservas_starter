@@ -1,0 +1,80 @@
+---
+env:
+  contexts:
+    - name: "tfm-reservas-auth"
+      urls:
+        - "http://web_dast:5000"
+      includePaths:
+        - "http://web_dast:5000/.*"
+      excludePaths:
+        - "http://web_dast:5000/auth/logout.*"
+
+      authentication:
+        method: "browser"
+        parameters:
+          loginPageUrl: "http://web_dast:5000/auth/login"
+          loginPageWait: 3
+          stepDelay: 0
+          browserId: "firefox-headless"
+          steps:
+            - description: "Detectar y completar automáticamente el formulario de login"
+              type: "AUTO_STEPS"
+        verification:
+          method: "autodetect"
+
+      sessionManagement:
+        method: "autodetect"
+        parameters: {}
+
+      users:
+        - name: "tfm-zap-user"
+          credentials:
+            username: "${ZAP_USER_EMAIL}"
+            password: "${ZAP_USER_PASSWORD}"
+
+  parameters:
+    failOnError: true
+    failOnWarning: false
+    continueOnFailure: true
+    progressToStdout: true
+
+jobs:
+  - type: diagnostics
+    parameters:
+      enabled: true
+
+  - type: requestor
+    parameters:
+      user: "tfm-zap-user"
+    requests:
+      - url: "http://web_dast:5000/reservations/"
+        name: "Authentication diagnostic request"
+        method: "GET"
+
+  - type: diagnostics
+    parameters:
+      enabled: false
+
+  - type: report
+    parameters:
+      template: "auth-report-json"
+      reportDir: "/zap/wrk/artifacts/zap"
+      reportFile: "zap-auth-report.json"
+      reportTitle: "TFM Reservas - ZAP Authentication Diagnostics"
+      reportDescription: "Diagnóstico aislado de autenticación antes de la calibración DAST."
+      displayReport: false
+    sites:
+      - "web_dast:5000"
+    sections:
+      - summary
+      - afenv
+      - statistics
+      - domains
+      - domainspartiallyoutofscope
+      - domainsoutofscope
+      - diagnostics
+      - diagnosticsafplan
+      - diagnosticsmessages
+      - diagnosticsscreenshots
+      - diagnosticswebelements
+      - diagnosticslogfile

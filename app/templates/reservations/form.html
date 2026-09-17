@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Editar' if reservation else 'Nueva' }} reserva{% endblock %}
+{% block content %}
+<h1 class="h3">{{ 'Editar' if reservation else 'Nueva' }} reserva</h1>
+<form method="post" class="card card-body shadow-sm">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <div class="mb-3">
+    <label class="form-label" for="guest_name">Nombre</label>
+    <input class="form-control" id="guest_name" name="guest_name" required minlength="2" maxlength="100" value="{{ request.form.get('guest_name', reservation.guest_name if reservation else '') }}">
+    {% if errors.get('guest_name') %}<div class="text-danger">{{ errors['guest_name'] }}</div>{% endif %}
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="guest_email">Correo</label>
+    <input class="form-control" id="guest_email" name="guest_email" type="email" required maxlength="255" value="{{ request.form.get('guest_email', reservation.guest_email if reservation else '') }}">
+    {% if errors.get('guest_email') %}<div class="text-danger">{{ errors['guest_email'] }}</div>{% endif %}
+  </div>
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label class="form-label" for="reservation_date">Fecha</label>
+      <input class="form-control" id="reservation_date" name="reservation_date" type="date" required value="{{ request.form.get('reservation_date', reservation.reservation_date.isoformat() if reservation else '') }}">
+      {% if errors.get('reservation_date') %}<div class="text-danger">{{ errors['reservation_date'] }}</div>{% endif %}
+    </div>
+    <div class="col-md-6 mb-3">
+      <label class="form-label" for="party_size">Personas</label>
+      <input class="form-control" id="party_size" name="party_size" type="number" min="1" max="12" required value="{{ request.form.get('party_size', reservation.party_size if reservation else '') }}">
+      {% if errors.get('party_size') %}<div class="text-danger">{{ errors['party_size'] }}</div>{% endif %}
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="notes">Notas</label>
+    <textarea class="form-control" id="notes" name="notes" maxlength="500" rows="4">{{ request.form.get('notes', reservation.notes if reservation else '') }}</textarea>
+    {% if errors.get('notes') %}<div class="text-danger">{{ errors['notes'] }}</div>{% endif %}
+  </div>
+  <div>
+    <button class="btn btn-primary" type="submit">Guardar</button>
+    <a class="btn btn-secondary" href="{{ url_for('reservations.index') }}">Cancelar</a>
+  </div>
+</form>
+{% endblock %}

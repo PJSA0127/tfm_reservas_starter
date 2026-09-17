@@ -1,0 +1,6 @@
+# Keep SAST targeting reproducible and independent of local generated files.
+**/__pycache__/**
+**/*.pyc
+.pytest_cache/
+.venv/
+artifacts/

@@ -1,0 +1,178 @@
+services:
+  db:
+    image: postgres:18.6
+    environment:
+      POSTGRES_DB: tfm_reservas
+      POSTGRES_USER: tfm
+      POSTGRES_PASSWORD: tfm
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - pg_isready -U tfm -d tfm_reservas
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+    - pgdata:/var/lib/postgresql
+  db_init:
+    build: .
+    working_dir: /app
+    env_file:
+    - .env
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+    - .:/app
+    command:
+    - flask
+    - --app
+    - app:create_app
+    - init-db
+  web:
+    build: .
+    env_file:
+    - .env
+    ports:
+    - 5000:5000
+    depends_on:
+      db:
+        condition: service_healthy
+      db_init:
+        condition: service_completed_successfully
+    volumes:
+    - .:/app
+    healthcheck:
+      test:
+      - CMD
+      - python
+      - -c
+      - import urllib.request; urllib.request.urlopen('http://localhost:5000/health', timeout=2)
+      interval: 2s
+      timeout: 3s
+      retries: 20
+  db_test:
+    image: postgres:18.6
+    profiles:
+    - test
+    environment:
+      POSTGRES_DB: tfm_reservas_test
+      POSTGRES_USER: tfm
+      POSTGRES_PASSWORD: tfm
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - pg_isready -U tfm -d tfm_reservas_test
+      interval: 2s
+      timeout: 5s
+      retries: 15
+  test:
+    build: .
+    profiles:
+    - test
+    environment:
+      TEST_DATABASE_URL: postgresql+psycopg://tfm:tfm@db_test:5432/tfm_reservas_test
+    depends_on:
+      db_test:
+        condition: service_healthy
+    volumes:
+    - .:/app
+    command: pytest -v tests/functional
+  semgrep:
+    image: semgrep/semgrep:1.177.0-nonroot
+    profiles:
+      - security
+    working_dir: /src
+    volumes:
+      - .:/src
+    command:
+      - semgrep
+      - scan
+      - --config
+      - security/semgrep/rules
+      - --metrics=off
+      - --exclude
+      - "**/__pycache__/**"
+      - --exclude
+      - "**/*.pyc"
+      - --json
+      - --output
+      - artifacts/semgrep/semgrep-report.json
+      - app
+  db_dast:
+    image: postgres:18.6
+    profiles:
+    - dast
+    environment:
+      POSTGRES_DB: tfm_reservas_dast
+      POSTGRES_USER: tfm
+      POSTGRES_PASSWORD: tfm
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - pg_isready -U tfm -d tfm_reservas_dast
+      interval: 2s
+      timeout: 5s
+      retries: 15
+  dast_init:
+    build: .
+    profiles:
+    - dast
+    working_dir: /app
+    environment:
+      PYTHONPATH: /app
+      DATABASE_URL: postgresql+psycopg://tfm:tfm@db_dast:5432/tfm_reservas_dast
+      SECRET_KEY: dast-only-local-secret
+      SESSION_COOKIE_SECURE: 'false'
+      ZAP_USER_EMAIL: ${ZAP_USER_EMAIL:-zap@tfm.local}
+      ZAP_USER_PASSWORD: ${ZAP_USER_PASSWORD:-ZapTest123!}
+    depends_on:
+      db_dast:
+        condition: service_healthy
+    volumes:
+    - .:/app
+    command: python -m scripts.dast_seed
+  web_dast:
+    build: .
+    profiles:
+    - dast
+    environment:
+      DATABASE_URL: postgresql+psycopg://tfm:tfm@db_dast:5432/tfm_reservas_dast
+      SECRET_KEY: dast-only-local-secret
+      SESSION_COOKIE_SECURE: 'false'
+    depends_on:
+      db_dast:
+        condition: service_healthy
+      dast_init:
+        condition: service_completed_successfully
+    volumes:
+    - .:/app
+    healthcheck:
+      test:
+      - CMD
+      - python
+      - -c
+      - import urllib.request; urllib.request.urlopen('http://localhost:5000/health', timeout=2)
+      interval: 2s
+      timeout: 3s
+      retries: 20
+  zap:
+    image: zaproxy/zap-stable:2.17.0
+    profiles:
+    - dast
+    environment:
+      ZAP_USER_EMAIL: ${ZAP_USER_EMAIL:-zap@tfm.local}
+      ZAP_USER_PASSWORD: ${ZAP_USER_PASSWORD:-ZapTest123!}
+    depends_on:
+      web_dast:
+        condition: service_healthy
+    working_dir: /zap/wrk
+    volumes:
+    - .:/zap/wrk:rw
+    command:
+    - zap.sh
+    - -cmd
+    - -autorun
+    - /zap/wrk/security/zap/zap-plan.yaml
+volumes:
+  pgdata: null

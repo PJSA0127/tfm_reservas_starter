@@ -1,0 +1,13 @@
+.git
+.gitignore
+.env
+.venv
+__pycache__
+*.py[cod]
+.pytest_cache
+artifacts
+zap-reports
+.vscode
+.idea
+coverage.xml
+htmlcov

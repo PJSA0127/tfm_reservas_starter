@@ -1,0 +1,462 @@
+name: Proposed Security Verification
+
+on:
+  workflow_dispatch:
+    inputs:
+      phase:
+        description: "Experimental phase for this proposed-process execution"
+        required: true
+        type: choice
+        default: calibration
+        options:
+          - calibration
+          - pilot
+          - proposed-definitive
+      run_label:
+        description: "Optional short label for the evidence artifacts"
+        required: false
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: proposed-security-${{ github.ref }}-${{ inputs.phase }}
+  cancel-in-progress: false
+
+jobs:
+  functional-tests:
+    name: Functional pytest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Prepare laboratory environment
+        run: cp .env.example .env
+
+      - name: Record runner versions
+        run: |
+          mkdir -p artifacts/pytest
+          {
+            echo "phase=${{ inputs.phase }}"
+            echo "run_label=${{ inputs.run_label }}"
+            echo "commit=${GITHUB_SHA}"
+            echo "run_id=${GITHUB_RUN_ID}"
+            echo "runner_os=${RUNNER_OS}"
+            date -u +"timestamp_utc=%Y-%m-%dT%H:%M:%SZ"
+            docker --version
+            docker compose version
+          } > artifacts/pytest/functional-metadata.txt
+
+      - name: Run functional tests and preserve test outcome
+        shell: bash
+        run: |
+          set +e
+          docker compose --profile test run --rm test \
+            pytest -v tests/functional \
+            --junitxml=artifacts/pytest/functional-junit.xml
+          pytest_exit=$?
+          set -e
+
+          echo "${pytest_exit}" > artifacts/pytest/functional-exit-code.txt
+          echo "pytest_exit_code=${pytest_exit}" >> artifacts/pytest/functional-metadata.txt
+
+          # pytest: 0 = all passed, 1 = tests failed; >=2 = technical execution problem.
+          if [[ "${pytest_exit}" -ge 2 ]]; then
+            echo "::error::Functional pytest had a technical execution error (exit ${pytest_exit})."
+            exit "${pytest_exit}"
+          fi
+
+          if [[ "${{ inputs.phase }}" != "proposed-definitive" && "${pytest_exit}" -ne 0 ]]; then
+            echo "::error::Safe ${{ inputs.phase }} phase must keep the functional suite green."
+            exit 1
+          fi
+
+          if [[ "${{ inputs.phase }}" == "proposed-definitive" && "${pytest_exit}" -eq 1 ]]; then
+            echo "::notice::Functional test failures are preserved as experimental findings; pytest executed correctly."
+          fi
+
+      - name: Record container image metadata
+        if: always()
+        run: |
+          {
+            echo
+            echo "postgres_repo_digests="
+            docker image inspect postgres:18.6 \
+              --format '{{json .RepoDigests}}' 2>/dev/null || true
+          } >> artifacts/pytest/functional-metadata.txt
+
+      - name: Upload functional evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: functional-${{ inputs.phase }}-${{ github.run_id }}
+          path: |
+            artifacts/pytest/functional-junit.xml
+            artifacts/pytest/functional-exit-code.txt
+            artifacts/pytest/functional-metadata.txt
+          if-no-files-found: warn
+          retention-days: 90
+
+      - name: Cleanup functional environment
+        if: always()
+        run: docker compose --profile test down --remove-orphans
+
+  security-tests:
+    name: ASVS-specific pytest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Prepare laboratory environment
+        run: cp .env.example .env
+
+      - name: Record runner versions
+        run: |
+          mkdir -p artifacts/pytest
+          {
+            echo "phase=${{ inputs.phase }}"
+            echo "run_label=${{ inputs.run_label }}"
+            echo "commit=${GITHUB_SHA}"
+            echo "run_id=${GITHUB_RUN_ID}"
+            echo "runner_os=${RUNNER_OS}"
+            date -u +"timestamp_utc=%Y-%m-%dT%H:%M:%SZ"
+            docker --version
+            docker compose version
+          } > artifacts/pytest/security-metadata.txt
+
+      - name: Run ASVS-specific tests and preserve test outcome
+        shell: bash
+        run: |
+          set +e
+          docker compose --profile test run --rm test \
+            pytest -v tests/security \
+            --junitxml=artifacts/pytest/security-junit.xml
+          pytest_exit=$?
+          set -e
+
+          echo "${pytest_exit}" > artifacts/pytest/security-exit-code.txt
+          echo "pytest_exit_code=${pytest_exit}" >> artifacts/pytest/security-metadata.txt
+
+          if [[ "${pytest_exit}" -ge 2 ]]; then
+            echo "::error::Security pytest had a technical execution error (exit ${pytest_exit})."
+            exit "${pytest_exit}"
+          fi
+
+          if [[ "${{ inputs.phase }}" != "proposed-definitive" && "${pytest_exit}" -ne 0 ]]; then
+            echo "::error::Safe ${{ inputs.phase }} phase must keep the security suite green."
+            exit 1
+          fi
+
+          if [[ "${{ inputs.phase }}" == "proposed-definitive" && "${pytest_exit}" -eq 1 ]]; then
+            echo "::notice::Security test failures are preserved as experimental findings; pytest executed correctly."
+          fi
+
+      - name: Record container image metadata
+        if: always()
+        run: |
+          {
+            echo
+            echo "postgres_repo_digests="
+            docker image inspect postgres:18.6 \
+              --format '{{json .RepoDigests}}' 2>/dev/null || true
+          } >> artifacts/pytest/security-metadata.txt
+
+      - name: Upload security-test evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: security-tests-${{ inputs.phase }}-${{ github.run_id }}
+          path: |
+            artifacts/pytest/security-junit.xml
+            artifacts/pytest/security-exit-code.txt
+            artifacts/pytest/security-metadata.txt
+          if-no-files-found: warn
+          retention-days: 90
+
+      - name: Cleanup security-test environment
+        if: always()
+        run: docker compose --profile test down --remove-orphans
+
+  sast:
+    name: Semgrep SAST
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Prepare laboratory environment
+        run: cp .env.example .env
+
+      - name: Prepare SAST evidence directory
+        run: |
+          mkdir -p artifacts/semgrep
+          chmod 0777 artifacts/semgrep
+          {
+            echo "phase=${{ inputs.phase }}"
+            echo "run_label=${{ inputs.run_label }}"
+            echo "commit=${GITHUB_SHA}"
+            echo "run_id=${GITHUB_RUN_ID}"
+            echo "runner_os=${RUNNER_OS}"
+            date -u +"timestamp_utc=%Y-%m-%dT%H:%M:%SZ"
+            docker --version
+            docker compose version
+          } > artifacts/semgrep/semgrep-metadata.txt
+
+      - name: Run Semgrep
+        shell: bash
+        run: |
+          set +e
+          docker compose --profile security run --rm semgrep 2>&1 \
+            | tee artifacts/semgrep/semgrep-console.log
+          semgrep_exit=${PIPESTATUS[0]}
+          set -e
+
+          echo "${semgrep_exit}" > artifacts/semgrep/semgrep-exit-code.txt
+          echo "semgrep_exit_code=${semgrep_exit}" >> artifacts/semgrep/semgrep-metadata.txt
+
+          if [[ "${semgrep_exit}" -ne 0 ]]; then
+            echo "::error::Semgrep reported a technical execution error (exit ${semgrep_exit})."
+            exit "${semgrep_exit}"
+          fi
+
+      - name: Classify Semgrep results
+        if: always()
+        run: |
+          python3 scripts/ci/classify_semgrep_findings.py \
+            artifacts/semgrep/semgrep-report.json \
+            artifacts/semgrep/semgrep-classification.json
+
+      - name: Validate safe-phase Semgrep expectation
+        if: ${{ always() && (inputs.phase == 'calibration' || inputs.phase == 'pilot') }}
+        run: |
+          python3 - <<'PYSEM'
+          import json
+          from pathlib import Path
+
+          path = Path("artifacts/semgrep/semgrep-classification.json")
+          if not path.is_file():
+              raise SystemExit("Missing Semgrep classification evidence.")
+
+          data = json.loads(path.read_text(encoding="utf-8"))
+          if data.get("execution_status") != "success":
+              raise SystemExit("Semgrep did not complete successfully.")
+          if data.get("finding_count", 0) != 0:
+              raise SystemExit("Safe calibration/pilot phase produced Semgrep findings.")
+
+          print("Safe-phase Semgrep expectation: PASS (0 findings).")
+          PYSEM
+
+      - name: Record Semgrep image metadata
+        if: always()
+        run: |
+          {
+            echo
+            echo "semgrep_version="
+            docker compose --profile security run --rm --no-deps semgrep \
+              semgrep --version 2>/dev/null || true
+            echo "semgrep_repo_digests="
+            docker image inspect semgrep/semgrep:1.177.0-nonroot \
+              --format '{{json .RepoDigests}}' 2>/dev/null || true
+          } >> artifacts/semgrep/semgrep-metadata.txt
+
+      - name: Upload SAST evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: semgrep-${{ inputs.phase }}-${{ github.run_id }}
+          path: |
+            artifacts/semgrep/semgrep-report.json
+            artifacts/semgrep/semgrep-classification.json
+            artifacts/semgrep/semgrep-console.log
+            artifacts/semgrep/semgrep-exit-code.txt
+            artifacts/semgrep/semgrep-metadata.txt
+          if-no-files-found: warn
+          retention-days: 90
+
+  dast:
+    name: Authenticated OWASP ZAP DAST
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Prepare laboratory environment
+        run: cp .env.example .env
+
+      - name: Prepare DAST evidence directory
+        run: |
+          mkdir -p artifacts/zap
+          chmod 0777 artifacts/zap
+          {
+            echo "phase=${{ inputs.phase }}"
+            echo "run_label=${{ inputs.run_label }}"
+            echo "commit=${GITHUB_SHA}"
+            echo "run_id=${GITHUB_RUN_ID}"
+            echo "runner_os=${RUNNER_OS}"
+            date -u +"timestamp_utc=%Y-%m-%dT%H:%M:%SZ"
+            docker --version
+            docker compose version
+          } > artifacts/zap/zap-metadata.txt
+
+      - name: Start isolated DAST laboratory
+        run: |
+          docker compose --profile dast up -d web_dast
+          docker compose --profile dast ps | tee artifacts/zap/docker-compose-ps.txt
+
+      - name: Run authenticated ZAP plan
+        shell: bash
+        run: |
+          set +e
+          docker compose --profile dast run --rm zap 2>&1 \
+            | tee artifacts/zap/zap-console.log
+          zap_exit=${PIPESTATUS[0]}
+          set -e
+
+          echo "${zap_exit}" > artifacts/zap/zap-exit-code.txt
+
+          if [[ ! -s artifacts/zap/zap-report.json ]]; then
+            echo "::error::ZAP did not produce zap-report.json."
+            exit 1
+          fi
+
+          if grep -q "Automation plan failures:" artifacts/zap/zap-console.log; then
+            echo "::error::ZAP Automation Framework reported execution failures."
+            exit 1
+          fi
+
+          if [[ "${zap_exit}" -ne 0 && "${zap_exit}" -ne 1 && "${zap_exit}" -ne 2 ]]; then
+            echo "::error::Unexpected ZAP exit code: ${zap_exit}"
+            exit "${zap_exit}"
+          fi
+
+          # ZAP exit 1/2 may represent alerts. Findings are classified separately.
+          exit 0
+
+      - name: Classify DAST findings in experimental scope
+        if: always()
+        run: |
+          python3 scripts/ci/check_zap_relevant_findings.py \
+            artifacts/zap/zap-report.json \
+            artifacts/zap/zap-relevant-findings.json
+
+      - name: Validate safe-phase DAST expectation
+        if: ${{ always() && (inputs.phase == 'calibration' || inputs.phase == 'pilot') }}
+        run: |
+          python3 - <<'PYZAP'
+          import json
+          from pathlib import Path
+
+          path = Path("artifacts/zap/zap-relevant-findings.json")
+          if not path.is_file():
+              raise SystemExit("Missing ZAP classification evidence.")
+
+          data = json.loads(path.read_text(encoding="utf-8"))
+          if data.get("execution_status") != "success":
+              raise SystemExit("ZAP classification did not complete successfully.")
+          if data.get("mapped_finding_type_count", 0) != 0:
+              raise SystemExit(
+                  "Safe calibration/pilot phase produced mapped D01/D02/D04 findings."
+              )
+
+          print("Safe-phase DAST expectation: PASS (0 mapped findings).")
+          PYZAP
+
+      - name: Validate DAST application robustness
+        if: always()
+        shell: bash
+        run: |
+          if ! docker compose --profile dast logs --no-color web_dast \
+            | tee artifacts/zap/web-dast.log; then
+            echo "::error::Unable to collect web_dast logs."
+            exit 1
+          fi
+
+          if grep -Eq \
+            'HTTP/1\.1" 5[0-9]{2} |ERROR in app: Exception|Traceback \(most recent call last\)' \
+            artifacts/zap/web-dast.log; then
+            echo "::error::The DAST scan caused an unhandled application 5xx/error."
+            exit 1
+          fi
+
+          echo "No application 5xx/unhandled exceptions were observed during DAST."
+
+      - name: Record ZAP image metadata
+        if: always()
+        run: |
+          {
+            echo
+            echo "zap_version="
+            docker compose --profile dast run --rm --no-deps zap \
+              zap.sh -version 2>/dev/null || true
+            echo "zap_repo_digests="
+            docker image inspect zaproxy/zap-stable:2.17.0 \
+              --format '{{json .RepoDigests}}' 2>/dev/null || true
+            echo "postgres_repo_digests="
+            docker image inspect postgres:18.6 \
+              --format '{{json .RepoDigests}}' 2>/dev/null || true
+          } >> artifacts/zap/zap-metadata.txt
+
+      - name: Upload DAST evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: zap-dast-${{ inputs.phase }}-${{ github.run_id }}
+          path: |
+            artifacts/zap/zap-report.json
+            artifacts/zap/zap-report.html
+            artifacts/zap/zap-report*/**
+            artifacts/zap/zap-discovered-urls.txt
+            artifacts/zap/zap-relevant-findings.json
+            artifacts/zap/zap-console.log
+            artifacts/zap/zap-exit-code.txt
+            artifacts/zap/zap-metadata.txt
+            artifacts/zap/web-dast.log
+            artifacts/zap/docker-compose-ps.txt
+          if-no-files-found: warn
+          retention-days: 90
+
+      - name: Cleanup DAST environment
+        if: always()
+        run: docker compose --profile dast down --remove-orphans
+
+  verification-summary:
+    name: Proposed process summary
+    runs-on: ubuntu-24.04
+    if: always()
+    needs:
+      - functional-tests
+      - security-tests
+      - sast
+      - dast
+
+    steps:
+      - name: Print mechanism execution results
+        shell: bash
+        run: |
+          echo "Functional tests : ${{ needs.functional-tests.result }}"
+          echo "Security tests   : ${{ needs.security-tests.result }}"
+          echo "Semgrep SAST     : ${{ needs.sast.result }}"
+          echo "OWASP ZAP DAST   : ${{ needs.dast.result }}"
+
+          if [[ "${{ needs.functional-tests.result }}" != "success" ||
+                "${{ needs.security-tests.result }}" != "success" ||
+                "${{ needs.sast.result }}" != "success" ||
+                "${{ needs.dast.result }}" != "success" ]]; then
+            echo "::error::One or more verification mechanisms had a technical failure or violated the expected safe-phase baseline."
+            exit 1
+          fi
+
+          echo "All verification mechanisms executed successfully for phase '${{ inputs.phase }}'."
+          echo "Security findings in proposed-definitive are preserved as evidence and are not conflated with technical execution failure."

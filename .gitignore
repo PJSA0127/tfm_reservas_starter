@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.env
+.vscode/
+.idea/
+artifacts/
+zap-reports/
+coverage.xml
+htmlcov/

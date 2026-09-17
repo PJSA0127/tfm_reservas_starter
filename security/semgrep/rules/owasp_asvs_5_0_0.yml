@@ -1,0 +1,90 @@
+rules:
+  - id: tfm.asvs.v121.jinja-safe-filter
+    languages:
+      - generic
+    severity: ERROR
+    message: >-
+      ASVS v5.0.0-1.2.1 / D01: se detectó el filtro Jinja `safe`, que puede
+      desactivar la codificación contextual automática de contenido no confiable.
+    metadata:
+      asvs: v5.0.0-1.2.1
+      defect: D01
+      mechanism: SAST
+      experimental_rule: SEM-V121-01
+    pattern-regex: '\{\{[^}\n]+\|\s*safe\b[^}]*\}\}'
+
+  - id: tfm.asvs.v121.explicit-markup
+    languages:
+      - python
+    severity: ERROR
+    message: >-
+      ASVS v5.0.0-1.2.1 / D01: revise el uso explícito de Markup(), ya que
+      puede marcar datos como seguros y omitir el escape HTML esperado.
+    metadata:
+      asvs: v5.0.0-1.2.1
+      defect: D01
+      mechanism: SAST
+      experimental_rule: SEM-V121-02
+    pattern-either:
+      - pattern: Markup(...)
+      - pattern: markupsafe.Markup(...)
+
+  - id: tfm.asvs.v124.raw-sql-fstring
+    languages:
+      - generic
+    severity: ERROR
+    message: >-
+      ASVS v5.0.0-1.2.4 / D02: posible construcción de SQL mediante f-string
+      enviada a text()/execute(). Utilice ORM o parámetros enlazados.
+    metadata:
+      asvs: v5.0.0-1.2.4
+      defect: D02
+      mechanism: SAST
+      experimental_rule: SEM-V124-01
+    pattern-regex: '(?:text|execute)\s*\(\s*f(?:r|b|u|rb|br)?["'']'
+
+  - id: tfm.asvs.v124.raw-sql-concatenation
+    languages:
+      - python
+    severity: ERROR
+    message: >-
+      ASVS v5.0.0-1.2.4 / D02: posible construcción de SQL por concatenación
+      enviada a text()/execute(). Utilice ORM o parámetros enlazados.
+    metadata:
+      asvs: v5.0.0-1.2.4
+      defect: D02
+      mechanism: SAST
+      experimental_rule: SEM-V124-02
+    pattern-either:
+      - pattern: text($LEFT + $RIGHT)
+      - pattern: execute($LEFT + $RIGHT)
+      - pattern: $OBJ.execute($LEFT + $RIGHT)
+
+  - id: tfm.asvs.v351.csrf-exempt-route
+    languages:
+      - generic
+    severity: ERROR
+    message: >-
+      ASVS v5.0.0-3.5.1 / D04: se detectó una exclusión explícita de CSRF.
+      Revise que una operación sensible no quede fuera de la protección anti-forgery.
+    metadata:
+      asvs: v5.0.0-3.5.1
+      defect: D04
+      mechanism: SAST-complementary
+      experimental_rule: SEM-V351-01
+    pattern-regex: '@csrf\.exempt|csrf\.exempt\s*\('
+
+  - id: tfm.asvs.v353.get-route-commits-state
+    languages:
+      - python
+    severity: ERROR
+    message: >-
+      ASVS v5.0.0-3.5.3 / D05: una ruta exclusivamente GET realiza
+      db_session.commit(); una operación que modifica estado no debe depender
+      de un método HTTP seguro.
+    metadata:
+      asvs: v5.0.0-3.5.3
+      defect: D05
+      mechanism: SAST
+      experimental_rule: SEM-V353-01
+    pattern-regex: '(?m)^@[A-Za-z_][A-Za-z0-9_]*\.(?:get\([^\r\n]*\)|route\([^\r\n]*methods\s*=\s*\[\s*["'']GET["'']\s*\][^\r\n]*\))\r?\n(?:@[^\r\n]+\r?\n)*def\s+\w+\([^)]*\):\r?\n(?:(?:[ \t]+[^\r\n]*)?\r?\n)*?[ \t]+db_session\.commit\(\)'

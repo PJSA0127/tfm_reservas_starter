@@ -1,0 +1,188 @@
+---
+env:
+  contexts:
+    - name: "tfm-reservas"
+      urls:
+        - "http://web_dast:5000"
+        - "http://web_dast:5000/"
+      includePaths:
+        - "http://web_dast:5000.*"
+        - "http://web_dast:5000/.*"
+      excludePaths:
+        - "http://web_dast:5000/auth/logout.*"
+
+      authentication:
+        method: "browser"
+        parameters:
+          loginPageUrl: "http://web_dast:5000/auth/login"
+          loginPageWait: 3
+          browserId: "firefox-headless"
+          stepDelay: 0
+          diagnostics: false
+          steps:
+            - description: "Detectar y completar automáticamente el formulario de login"
+              type: "AUTO_STEPS"
+              timeout: 1000
+
+        verification:
+          method: "poll"
+          loggedInRegex: "\\Q 200 OK\\E"
+          loggedOutRegex: "\\Q 302 FOUND\\E"
+          pollFrequency: 60
+          pollUnits: "seconds"
+          pollUrl: "http://web_dast:5000/reservations/"
+          pollPostData: ""
+          pollAdditionalHeaders:
+            - header: "referer"
+              value: "http://web_dast:5000/auth/login"
+
+      sessionManagement:
+        method: "headers"
+        parameters: {}
+
+      users:
+        - name: "tfm-zap-user"
+          credentials:
+            username: "${ZAP_USER_EMAIL}"
+            password: "${ZAP_USER_PASSWORD}"
+
+  parameters:
+    # Una desviación 200 -> 302 en las guardas del requestor genera warning.
+    # Durante la calibración ese warning debe detener el plan.
+    failOnError: true
+    failOnWarning: true
+    continueOnFailure: false
+    progressToStdout: true
+
+jobs:
+  - type: passiveScan-config
+    parameters:
+      scanOnlyInScope: true
+      maxAlertsPerRule: 20
+      enableTags: false
+
+  # Guardas funcionales de autenticación. Las cuatro rutas están protegidas
+  # con @login_required: sin sesión válida devuelven 302; autenticadas, 200.
+  - type: requestor
+    parameters:
+      user: "tfm-zap-user"
+    requests:
+      - url: "http://web_dast:5000/reservations/"
+        name: "Authenticated reservations list"
+        method: "GET"
+        responseCode: 200
+      - url: "http://web_dast:5000/reservations/new"
+        name: "Authenticated create reservation form"
+        method: "GET"
+        responseCode: 200
+      - url: "http://web_dast:5000/reservations/1"
+        name: "Authenticated reservation detail"
+        method: "GET"
+        responseCode: 200
+      - url: "http://web_dast:5000/reservations/1/edit"
+        name: "Authenticated edit reservation form"
+        method: "GET"
+        responseCode: 200
+    tests:
+      - name: "At least one successful authentication"
+        type: "stats"
+        statistic: "stats.auth.success"
+        site: "http://web_dast:5000"
+        operator: ">="
+        value: 1
+        onFail: "error"
+      - name: "Authenticated state observed"
+        type: "stats"
+        statistic: "stats.auth.state.loggedin"
+        site: "http://web_dast:5000"
+        operator: ">="
+        value: 1
+        onFail: "error"
+      - name: "Browser authentication completed"
+        type: "stats"
+        statistic: "stats.auth.browser.passed"
+        site: "http://web_dast:5000"
+        operator: ">="
+        value: 1
+        onFail: "error"
+
+  - type: spider
+    parameters:
+      context: "tfm-reservas"
+      user: "tfm-zap-user"
+      url: "http://web_dast:5000/reservations/"
+      maxDuration: 2
+      maxDepth: 5
+
+  - type: passiveScan-wait
+    parameters:
+      maxDuration: 2
+
+  - type: activeScan-policy
+    parameters:
+      name: "TFM-ASVS-DAST"
+    policyDefinition:
+      defaultStrength: "Medium"
+      defaultThreshold: "Off"
+      rules:
+        - id: 40012
+          name: "Cross Site Scripting (Reflected)"
+          strength: "Medium"
+          threshold: "Medium"
+        - id: 40014
+          name: "Cross Site Scripting (Persistent)"
+          strength: "Medium"
+          threshold: "Medium"
+        - id: 40018
+          name: "SQL Injection"
+          strength: "Medium"
+          threshold: "Medium"
+
+  - type: activeScan
+    parameters:
+      context: "tfm-reservas"
+      user: "tfm-zap-user"
+      policy: "TFM-ASVS-DAST"
+      maxRuleDurationInMins: 3
+      maxScanDurationInMins: 8
+
+  - type: passiveScan-wait
+    parameters:
+      maxDuration: 2
+
+  - type: report
+    parameters:
+      template: "traditional-json"
+      reportDir: "/zap/wrk/artifacts/zap"
+      reportFile: "zap-report.json"
+      reportTitle: "TFM Reservas - ZAP DAST"
+      reportDescription: "DAST autenticado del proceso propuesto; la fase experimental se registra mediante metadatos externos del run."
+      displayReport: false
+    risks: [high, medium, low, info]
+    confidences: [high, medium, low, falsepositive]
+
+  - type: report
+    parameters:
+      template: "modern"
+      reportDir: "/zap/wrk/artifacts/zap"
+      reportFile: "zap-report.html"
+      reportTitle: "TFM Reservas - ZAP DAST"
+      reportDescription: "DAST autenticado del proceso propuesto; la fase experimental se registra mediante metadatos externos del run."
+      displayReport: false
+    risks: [high, medium, low, info]
+    confidences: [high, medium, low, falsepositive]
+
+  - type: export
+    parameters:
+      context: "tfm-reservas"
+      type: "url"
+      source: "all"
+      fileName: "/zap/wrk/artifacts/zap/zap-discovered-urls.txt"
+
+  - type: exitStatus
+    parameters:
+      errorLevel: "High"
+      warnLevel: "Medium"
+      okExitValue: 0
+      errorExitValue: 1
+      warnExitValue: 2

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Reservas{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h3 mb-0">Mis reservas</h1>
+  <a class="btn btn-primary" href="{{ url_for('reservations.create') }}">Nueva reserva</a>
+</div>
+<div class="table-responsive">
+<table class="table table-striped bg-white align-middle">
+  <thead><tr><th>Fecha</th><th>Cliente</th><th>Personas</th><th>Estado</th><th></th></tr></thead>
+  <tbody>
+  {% for reservation in reservations %}
+    <tr>
+      <td>{{ reservation.reservation_date }}</td>
+      <td>{{ reservation.guest_name }}</td>
+      <td>{{ reservation.party_size }}</td>
+      <td>{{ reservation.status }}</td>
+      <td><a href="{{ url_for('reservations.detail', reservation_id=reservation.id) }}">Ver</a></td>
+    </tr>
+  {% else %}
+    <tr><td colspan="5" class="text-muted">No existen reservas.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}
