@@ -2,7 +2,7 @@
 
 ## Estado
 
-La lógica del workflow fue simulada localmente y validada mediante CAL-01 en GitHub Actions. El Run ID 35247019707 terminó correctamente sobre el commit 7cfa55bc7bc96d67112f37d19e681007ec19d425.
+La lógica del workflow fue validada mediante CAL-01 y, tras inmovilizar dependencias, imágenes y GitHub Actions, mediante CAL-02. CAL-02 (Run ID 35251661421) terminó correctamente sobre el commit 32d27a04305617f8fea031704e24d7e68ce9c451, identificado por el tag pre-pilot-freeze-v0.1.
 
 ## Workflow
 
@@ -92,6 +92,31 @@ Actualmente:
 
 CAL-01 validó las referencias `v7` utilizadas originalmente. Antes del freeze, esas mismas revisiones quedan fijadas por SHA completo. Los artifacts de CAL-01 fueron conservados y se registraron `GITHUB_SHA=7cfa55bc7bc96d67112f37d19e681007ec19d425` y `GITHUB_RUN_ID=35247019707`.
 
+
+## CAL-02 - validación del freeze técnico
+
+- Run ID: `35251661421`;
+- commit: `32d27a04305617f8fea031704e24d7e68ce9c451`;
+- tag técnico: `pre-pilot-freeze-v0.1`;
+- funcional: 18/18 PASS;
+- seguridad ASVS: 22/22 PASS;
+- total pytest: 40/40 PASS;
+- Semgrep: 0 findings / 0 errors;
+- ZAP autenticado: PASS;
+- ZAP: 0 tipos de hallazgo mapeados a D01/D02/D04;
+- ZAP: 6 tipos de hallazgo adicionales conservados;
+- aplicación durante DAST: 0 HTTP 5xx / excepciones no controladas;
+- summary job: PASS.
+
+Artifacts:
+
+- functional: `c724040f70c24bf9fd9dacfe9501e575abf8016145b7fe4d8762cf1665b58d73`;
+- security-tests: `9189dafc41b1081eac13641e783e53fa3bfc30f990b63a54cf7294eeca3d9a50`;
+- Semgrep: `009079eaad1ccb282be6b7eae56d31168d0857d2c8288118c739e3b393ea43de`;
+- ZAP: `c24df1add7d495352591a7e00c2521fc3d60c04c970c20e7e87f4bc05f50b5a0`.
+
+El resultado confirma que la inmovilización técnica no alteró el comportamiento esperado del baseline seguro.
+
 ## Dependabot
 
 Durante desarrollo se utiliza `.github/dependabot.yml` limitado al ecosistema `github-actions` para identificar actualizaciones disponibles de las Actions utilizadas por el workflow.
@@ -106,7 +131,6 @@ El tiempo humano de disparo, análisis y archivo = esfuerzo humano.
 
 ## Pendientes
 
-- ejecutar CAL-02 sobre el entorno ya inmovilizado;
 
 - ejecución `pilot`;
 - ejecución `proposed-definitive`.

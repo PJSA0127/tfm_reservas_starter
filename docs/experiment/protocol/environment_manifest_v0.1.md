@@ -2,7 +2,7 @@
 
 ## Estado
 
-Validación local y calibración real CAL-01 completadas; reproducibilidad técnica en cierre pre-freeze.
+Validación local, CAL-01 y CAL-02 completadas; freeze técnico pre-piloto validado y etiquetado.
 
 ## Código
 
@@ -10,9 +10,9 @@ Validación local y calibración real CAL-01 completadas; reproducibilidad técn
 |---|---|
 | Repositorio técnico de referencia | repo corregido validado |
 | Estado actual | baseline seguro; D01–D05 no introducidos |
-| Commit/HEAD definitivo | PENDIENTE |
-| Tag baseline/piloto | PENDIENTE |
-| Tag versión experimental | PENDIENTE |
+| Commit/HEAD definitivo | `32d27a04305617f8fea031704e24d7e68ce9c451` |
+| Tag baseline/piloto | `pre-pilot-freeze-v0.1` |
+| Tag versión experimental | PENDIENTE para la versión definitiva con D01-D05 |
 
 ## Runtime
 
@@ -39,11 +39,12 @@ Validación local y calibración real CAL-01 completadas; reproducibilidad técn
 
 | Elemento | Valor |
 |---|---|
-| SO | Windows; edición/build PENDIENTE |
-| Docker Engine | 29.5.2 |
-| Docker Compose | v5.1.4 |
-| Git | PENDIENTE |
-| CPU/RAM | PENDIENTE si se decide incorporar |
+| SO | Windows 10 Home 22H2; build 19045.6466; x64 |
+| Docker Engine | `29.5.2` (build `79eb04c`) |
+| Docker Compose | `v5.1.4` |
+| Git | `2.54.0.windows.1` |
+| CPU/RAM | Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz; 15.89 GB RAM |
+| Equipo | Acer Nitro AN515-51 |
 
 ## Seguridad
 
@@ -83,10 +84,9 @@ El host local documentado anteriormente es el entorno común para las actividade
 | checkout | `actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1` (`v7`) |
 | upload artifact | `actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a` (`v7`) |
 | Dependabot | `.github/dependabot.yml` limitado a `github-actions` |
-| Ejecución real | CAL-01 PASS - Run ID `35247019707` - commit `7cfa55bc7bc96d67112f37d19e681007ec19d425` |
+| Ejecución CAL-01 | PASS - Run ID `35247019707` - commit `7cfa55bc7bc96d67112f37d19e681007ec19d425` |
+| Ejecución CAL-02 | PASS - Run ID `35251661421` - commit `32d27a04305617f8fea031704e24d7e68ce9c451` |
 
 ## Pendientes de freeze
 
-- Git exacto;
-- host exacto si se considera necesario;
-- commit/tags;
+- tag de la versión experimental definitiva con D01-D05;
