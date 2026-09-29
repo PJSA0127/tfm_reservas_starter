@@ -114,7 +114,7 @@ Los resultados del piloto no se utilizan para calcular las métricas definitivas
 | `metrics_definition_v0.1.md` | Cobertura, esfuerzo y detección | Cerrado para pilotaje |
 | `independent_coverage_instrument_v0.1.md` | Asociación posterior evidencia–requisito | Cerrado para pilotaje |
 | `reset_procedure_v0.1.md` | Restauración del estado experimental | Cerrado para pilotaje |
-| `conventional_workspace_sanitization_v0.1.md` | Construcción y validación del workspace convencional | Workspace real preparado y validado; registro documental pendiente de sincronización |
+| `conventional_workspace_sanitization_v0.1.md` | Construcción y validación del workspace convencional | Workspace real preparado y validado; piloto no iniciado |
 | `pilot_protocol_v0.1.md` | Piloto previo a medición definitiva | Cerrado para pilotaje; ejecución no iniciada |
 | `run_record_template_v0.1.md` | Registro por ejecución | Cerrado como plantilla |
 | `effort_log_v0.1.md` | Minutos-persona y tiempos automáticos | Instrumento cerrado; datos observados pendientes |
@@ -125,7 +125,7 @@ Los resultados del piloto no se utilizan para calcular las métricas definitivas
 | `ci_execution_v0.1.md` | Ejecución CI del proceso propuesto | CAL-01/CAL-02 validadas; pilot y proposed-definitive pendientes |
 | `environment_manifest_v0.1.md` | Versiones, dependencias, host y digests | Freeze técnico pre-piloto validado; versión experimental definitiva pendiente |
 | `pre_github_validation_plan_v0.1.md` | Validación técnica pre-GitHub | Histórico; validación local completada y calibración remota realizada posteriormente |
-| `protocol_freeze_checklist_v0.1.md` | Condiciones de preparación y congelación | Requiere sincronización documental con controles ya satisfechos; piloto/freeze definitivo pendientes |
+| `protocol_freeze_checklist_v0.1.md` | Condiciones de preparación y congelación | Preparación pre-piloto completada; piloto y freeze definitivo pendientes |
 | `audit_transversal_corrections_v0.1.md` | Registro de correcciones metodológicas transversales | Histórico vigente; debe conservar trazabilidad de las correcciones |
 
 ## Estado experimental

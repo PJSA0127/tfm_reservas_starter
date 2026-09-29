@@ -1,4 +1,4 @@
-# Correcciones derivadas de auditoría transversal — v0.2
+# Correcciones derivadas de auditoría transversal — v0.3
 
 ## Propósito
 
@@ -167,14 +167,46 @@ La resolución de este pendiente tampoco constituye el inicio del piloto:
 
 El siguiente paso experimental formal continúa siendo C00 únicamente cuando el equipo decida iniciar efectivamente el piloto.
 
-## N — Discrepancia temporal del Gantt
+## N — Replanificación temporal del Gantt
 
-La planificación temporal original ya no coincide con la ejecución real del proyecto:
+La discrepancia temporal detectada en la planificación original fue resuelta el 2026-09-29 mediante la replanificación de la línea técnica de H1.
 
-- `H1.T1` estaba planificado para 2026-09-21 → 2026-09-24;
-- las actividades posteriores dependían de ese cierre;
-- `PILOT-CONV-01` continúa sin iniciar.
+La actualización mantiene:
 
-Esta desviación se considera de planificación y no modifica por sí misma el orden metodológico.
+- `PILOT-CONV-01` como `READY_TO_START / NOT_STARTED`;
+- C00 como `NOT_STARTED`;
+- el orden metodológico completo entre ambos pilotos;
+- el 2026-10-09 sin trabajo planificado por feriado;
+- H1.T9–H1.T11 sin desplazamiento;
+- H1.M, H2.M, H3.M y H4.M en sus fechas previstas.
 
-El Gantt deberá sincronizarse después de cerrar la actualización documental y establecer el nuevo punto temporal de ejecución, sin utilizar las fechas vencidas como justificación para saltar dependencias experimentales.
+La replanificación del Gantt constituye únicamente una actualización temporal y no representa inicio de C00, ejecución del piloto ni autorización para omitir dependencias experimentales.
+
+## O — Relación entre sincronización documental y artefactos pre-piloto sellados
+
+El commit documental de sincronización pre-C00:
+
+`c59f4383542f5c38cde07a973a3d6e4e480d6191`
+
+es posterior al freeze técnico `pre-pilot-freeze-v0.1` y a la preparación de los workspaces pre-piloto.
+
+Esta sincronización documental no reconstruye, sustituye ni invalida:
+
+- el workspace convencional sanitizado ya preparado;
+- el workspace de ejecución convencional;
+- el workspace pre-piloto del proceso propuesto;
+- los manifests SHA-256 ya cerrados;
+- los paquetes ZIP congelados;
+- los sellos de preparación;
+- el baseline técnico identificado por `pre-pilot-freeze-v0.1`;
+- las evidencias de preparación ya protegidas.
+
+Por tanto, durante los pilotos se mantiene la siguiente distinción:
+
+1. los contenidos técnicos y artefactos incluidos en los workspaces pre-piloto permanecen congelados conforme a sus manifests y sellos;
+2. la documentación vigente del repositorio y `ESTADO_ACTUAL_TFM.md` gobiernan la interpretación operacional actual, la asignación nominal de roles y el estado de continuidad;
+3. las correcciones documentales posteriores no se copian retroactivamente dentro de los workspaces sellados únicamente para igualar versiones;
+4. los datos observados durante cada ejecución se registran en los instrumentos y evidencias generados para el run correspondiente, sin modificar retroactivamente artefactos de preparación ya cerrados;
+5. cualquier inconsistencia que afecte materialmente la ejecución debe resolverse antes de C00 o, si se detecta después del inicio de un run, tratarse conforme a las reglas de incidencias e invalidación del protocolo.
+
+La asignación nominal registrada en `investigator_role_assignment_v0.1.md` se aplica a las ejecuciones futuras aunque una plantilla histórica incluida en un workspace sellado conserve campos genéricos de rol. Esto no autoriza a modificar retroactivamente el workspace ni sus hashes.

@@ -1,6 +1,6 @@
 # Operacionalización de requisitos OWASP ASVS 5.0.0 L1 — v0.1
 
-**Estado:** IMPLEMENTADO Y CALIBRADO LOCALMENTE. Pendiente de piloto y congelación del protocolo.
+**Estado:** IMPLEMENTADO Y CALIBRADO. Preparación pre-piloto completada; pilotos no iniciados; freeze experimental definitivo pendiente.
 
 ## Convención de identificación
 
@@ -59,13 +59,13 @@ La operacionalización ya cuenta con implementación y calibración local de los
 - rutas locales de evidencia;
 - workflow CI manual del proceso propuesto preparado.
 
-Antes de congelar el protocolo todavía falta:
+La preparación pre-piloto de esta operacionalización está cerrada. Antes del freeze experimental definitivo todavía falta:
 
-- validar el workflow en GitHub Actions sobre un checkout limpio;
-- fijar el procedimiento convencional;
-- fijar el instrumento independiente de cobertura;
-- fijar el protocolo piloto y los datos iniciales;
-- ejecutar la fase piloto sobre la instancia segura de calibración;
-- registrar las incidencias y el esfuerzo humano del piloto;
-- corregir únicamente problemas de claridad, instrumentación o ejecución detectados en el piloto;
-- fijar versiones/digests/SHAs y congelar el protocolo.
+- ejecutar `PILOT-CONV-01` sobre la instancia segura de calibración;
+- cerrar, archivar y verificar la integridad de la evidencia del piloto convencional;
+- ejecutar el reset formal entre los procesos y verificar condiciones equivalentes;
+- ejecutar `PILOT-PROP-01` sobre la instancia segura de calibración;
+- cerrar, archivar y verificar la integridad de la evidencia del piloto propuesto;
+- analizar las incidencias, lecciones y registros de esfuerzo obtenidos durante ambos pilotos;
+- aplicar únicamente los ajustes permitidos por claridad, instrumentación o reproducibilidad y versionar los instrumentos afectados cuando corresponda;
+- fijar las versiones, digests y SHAs definitivos y congelar el protocolo experimental antes de introducir D01–D05.

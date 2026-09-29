@@ -202,6 +202,7 @@ Antes de utilizar el paquete se comprueba:
 | SHA-256 casos manuales | `f83c2252ea1b77acc6f9bfe6d391b3cbae3a198b4d3f9a2cd177cd5dd0092ef1` |
 | Responsable operativo de preparación para futuras ejecuciones | I2 — Carlos |
 | Responsable operativo de revisión para futuras ejecuciones | I3 — Jorge |
+| Piloto iniciado | `NO` |
 
 La asignación nominal vigente es:
 
@@ -214,7 +215,6 @@ Registro: `investigator_role_assignment_v0.1.md`.
 SHA-256: `219a8d9b925f101f6d1168a9d396a497c2a3997035e8d358f1a09ff78acfc631`.
 
 Esta asignación aplica a las ejecuciones posteriores a su formalización. No se atribuyen retroactivamente a Carlos o Jorge las acciones de preparación histórica ya cerradas antes de crear el registro.
-| Piloto iniciado | `NO` |
 
 Los valores anteriores describen la preparación ya realizada y no constituyen resultados experimentales del piloto.
 
