@@ -1,10 +1,10 @@
-# Diseño experimental — v0.1
+# Diseño experimental — v0.2
 
 ## 1. Estado
 
-**CERRADO PARA PILOTAJE / PRE-FREEZE.**
+**CERRADO PARA PILOTAJE / PILOTO NO INICIADO / FREEZE DEFINITIVO PENDIENTE.**
 
-Este documento operacionaliza el diseño descrito en el anteproyecto y no lo sustituye. Las decisiones contenidas aquí quedan fijadas para el piloto. Cualquier ajuste posterior deberá derivarse de una incidencia documentada de claridad, instrumentación, reproducibilidad o funcionamiento técnico y deberá realizarse antes del freeze experimental.
+Este documento operacionaliza el diseño definido en `TFM - G7.docx` y no lo sustituye. Las decisiones contenidas aquí quedan fijadas para el piloto. Cualquier ajuste posterior deberá derivarse de una incidencia documentada de claridad, instrumentación, reproducibilidad o funcionamiento técnico y deberá realizarse antes del freeze experimental definitivo.
 
 ## 2. Pregunta de investigación
 
@@ -80,7 +80,17 @@ Parte del mismo estado funcional inicial, repite las actividades comunes del con
 
 El mismo equipo investigador participa en ambos procesos y mantiene los mismos roles en las actividades equivalentes.
 
-### I1 — Ejecutor principal
+La asignación nominal vigente fue formalizada antes de C00:
+
+- I1 = Paulo;
+- I2 = Carlos;
+- I3 = Jorge.
+
+Registro: `investigator_role_assignment_v0.1.md`.
+
+SHA-256: `219a8d9b925f101f6d1168a9d396a497c2a3997035e8d358f1a09ff78acfc631`.
+
+### I1 — Paulo — Ejecutor principal
 
 - opera la aplicación y el equipo experimental principal;
 - ejecuta comandos y pruebas;
@@ -91,7 +101,7 @@ El mismo equipo investigador participa en ambos procesos y mantiene los mismos r
 
 I1 no puede incorporar nuevas comprobaciones dirigidas a confirmar un defecto concreto.
 
-### I2 — Registrador de evidencia y esfuerzo
+### I2 — Carlos — Registrador de evidencia y esfuerzo
 
 - inicia y detiene el cronometraje;
 - registra pausas;
@@ -102,7 +112,7 @@ I1 no puede incorporar nuevas comprobaciones dirigidas a confirmar un defecto co
 
 I2 no orienta la ejecución hacia defectos concretos.
 
-### I3 — Supervisor del protocolo
+### I3 — Jorge — Supervisor del protocolo
 
 - verifica condiciones iniciales;
 - verifica cumplimiento del procedimiento;
@@ -180,13 +190,29 @@ La clasificación definitiva se realiza después de concluir ambos procesos.
 
 Una ejecución invalidada no reemplaza ni sobrescribe su registro: se conserva como invalidada y el nuevo intento recibe un nuevo Run ID.
 
-## 11. Estado inicial equivalente
+## 11. Estado inicial equivalente por fase
 
-El **commit experimental congelado** constituye la fuente común.
+Cada par de ejecuciones de una misma fase debe derivarse del mismo origen técnico congelado.
+
+### Piloto
+
+El piloto utiliza el baseline seguro:
+
+- tag: `pre-pilot-freeze-v0.1`;
+- commit técnico: `32d27a04305617f8fea031704e24d7e68ce9c451`;
+- D01–D05: no introducidos.
+
+`PILOT-CONV-01` y `PILOT-PROP-01` deben derivarse de este mismo origen técnico, aplicando únicamente las diferencias de instrumentación permitidas para cada proceso.
+
+### Evaluación definitiva
+
+La evaluación definitiva utilizará un único commit experimental futuro con D01–D05 introducidos y validados.
+
+`DEF-CONV-01` y `DEF-PROP-01` deberán derivarse exactamente de ese mismo commit experimental definitivo.
 
 ### Convencional
 
-Utiliza un workspace sanitizado derivado de ese commit:
+Utiliza un workspace sanitizado derivado del commit correspondiente a la fase:
 
 - `app/` idéntico;
 - `tests/functional/` idéntico;
@@ -198,7 +224,7 @@ La equivalencia se valida mediante hashes y verificaciones reproducibles.
 
 ### Propuesto
 
-Utiliza el mismo commit experimental como origen y conserva la instrumentación completa.
+Utiliza el mismo commit correspondiente a la fase como origen y conserva la instrumentación completa.
 
 ### Regla entre ejecuciones
 
@@ -209,8 +235,10 @@ Aunque el convencional detecte un defecto, **no se corrige el código antes de e
 Se ejecuta una secuencia piloto completa sobre baseline seguro:
 
 1. `PILOT-CONV-01`;
-2. reset;
-3. `PILOT-PROP-01`.
+2. cierre y archivo de su evidencia;
+3. reset completo CONV → PROP;
+4. comprobación de equivalencia del estado inicial;
+5. `PILOT-PROP-01`.
 
 El piloto:
 
@@ -253,15 +281,15 @@ Tasa de detección (%) =
 
 ### Aplicación inicial
 
-I2 aplica inicialmente el instrumento independiente usando solo evidencia cerrada y criterios congelados.
+I2 — Carlos aplica inicialmente el instrumento independiente usando solo evidencia cerrada y criterios congelados.
 
 ### Revisión
 
-I3 revisa la clasificación y comprueba consistencia y suficiencia de evidencia.
+I3 — Jorge revisa la clasificación y comprueba consistencia y suficiencia de evidencia.
 
 ### Participación de I1
 
-I1 participa únicamente en la revisión final y puede aclarar hechos ya registrados. No puede:
+I1 — Paulo participa únicamente en la revisión final y puede aclarar hechos ya registrados. No puede:
 
 - crear evidencia nueva;
 - ejecutar nuevas pruebas;
@@ -316,3 +344,19 @@ Antes de la evaluación definitiva se congelan:
 - evidencia;
 - Run IDs;
 - workflow y referencias inmutables.
+
+## 18. Estado operacional pre-C00
+
+Al momento de esta sincronización documental:
+
+- `PILOT-CONV-01`: `READY_TO_START / NOT_STARTED`;
+- `C00`: `NOT_STARTED`;
+- cronómetro experimental: `NO INICIADO`;
+- `PILOT-PROP-01`: `PREPARED_NOT_STARTED`;
+- reset CONV → PROP: `PREPARED_NOT_EXECUTED`;
+- D01–D05 introducidos: `NO`;
+- versión experimental definitiva: `NO CREADA`.
+
+La preparación técnica, las calibraciones CAL-01/CAL-02 y el freeze técnico pre-piloto no constituyen una ejecución experimental.
+
+La fuente de verdad del estado operacional vigente es `ESTADO_ACTUAL_TFM.md`.

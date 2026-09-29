@@ -4,7 +4,7 @@
 
 ## Convención de identificación
 
-Para evitar ambigüedad entre versiones, la documentación experimental utilizará el identificador completo `v5.0.0-X.Y.Z`. Se mantiene entre paréntesis el identificador corto empleado en el anteproyecto.
+Para evitar ambigüedad entre versiones, la documentación experimental utilizará el identificador completo `v5.0.0-X.Y.Z`. Se mantiene entre paréntesis el identificador corto empleado en `TFM - G7.docx`.
 
 ## Matriz de operacionalización
 

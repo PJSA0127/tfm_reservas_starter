@@ -2,7 +2,7 @@
 
 ## 1. Estado
 
-**CERRADO PARA PILOTAJE / PRE-FREEZE.**
+**CERRADO PARA PILOTAJE / PILOTO NO INICIADO / FREEZE DEFINITIVO PENDIENTE.**
 
 ## 2. Objetivo
 
@@ -112,8 +112,8 @@ Si la evidencia es insuficiente:
 | Campo | Valor |
 |---|---|
 | Fecha de aplicación | PENDIENTE |
-| I2 — aplicación inicial | PENDIENTE |
-| I3 — revisión | PENDIENTE |
+| I2 — Carlos — aplicación inicial | PENDIENTE |
+| I3 — Jorge — revisión | PENDIENTE |
 | Consenso final | PENDIENTE |
 | Cobertura convencional | PENDIENTE |
 | Cobertura propuesta | PENDIENTE |

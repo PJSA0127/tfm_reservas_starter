@@ -1,18 +1,24 @@
-# Procedimiento propuesto de verificación continua — v0.1
+# Procedimiento propuesto de verificación continua — v0.2
 
 ## 1. Estado
 
-**CERRADO PARA PILOTAJE / PRE-FREEZE.**
+**CERRADO PARA PILOTAJE / PREPARADO NO INICIADO / FREEZE DEFINITIVO PENDIENTE.**
 
 ## 2. Objetivo
 
-Aplicar el proceso propuesto definido en el anteproyecto, conservando las actividades comunes del proceso convencional e incorporando requisitos ASVS explícitos, trazabilidad, pruebas específicas, SAST, DAST, CI y conservación estructurada de evidencias.
+Aplicar el proceso propuesto definido en `TFM - G7.docx`, conservando las actividades comunes del proceso convencional e incorporando requisitos OWASP ASVS explícitos, trazabilidad requisito-prueba-evidencia, pruebas específicas, SAST, DAST, CI y conservación estructurada de evidencias.
 
 ## 3. Roles
 
-- **I1:** ejecutor principal.
-- **I2:** registro de esfuerzo/evidencia.
-- **I3:** supervisor del protocolo.
+- **I1 — Paulo:** ejecutor principal.
+- **I2 — Carlos:** registro de esfuerzo/evidencia.
+- **I3 — Jorge:** supervisor del protocolo.
+
+Asignación formal: `investigator_role_assignment_v0.1.md`.
+
+SHA-256 del registro: `219a8d9b925f101f6d1168a9d396a497c2a3997035e8d358f1a09ff78acfc631`.
+
+Los mismos roles se mantienen en las actividades equivalentes del proceso convencional y del proceso propuesto.
 
 ## 4. Orden obligatorio
 
@@ -79,12 +85,14 @@ Los hallazgos adicionales fuera de D01–D05 se registran y se clasifican despu�
 
 ## 10. P06 — GitHub Actions
 
-Ejecutar el workflow manual con la fase correspondiente:
+Ejecutar el workflow manual únicamente con la fase correspondiente al run autorizado:
 
-- `pilot`;
-- `proposed-definitive`.
+- `pilot`, durante `PILOT-PROP-01`;
+- `proposed-definitive`, durante `DEF-PROP-01`.
 
 GitHub Actions requiere conectividad y constituye un mecanismo adicional específico del proceso propuesto.
+
+Las calibraciones CAL-01 y CAL-02 ya realizadas son validaciones técnicas pre-piloto y no deben confundirse con ninguna de estas dos ejecuciones experimentales.
 
 ## 11. P07 — Reintento técnico
 
@@ -110,9 +118,9 @@ No modifican directamente la tasa de detección experimental.
 
 ## 13. P09 — Consolidación
 
-I1/I2 consolidan las evidencias sin modificar resultados.
+I1 — Paulo e I2 — Carlos consolidan las evidencias sin modificar resultados.
 
-I3 comprueba que:
+I3 — Jorge comprueba que:
 
 - las actividades previstas fueron ejecutadas;
 - los artifacts pertenecen al Run ID;
@@ -151,3 +159,22 @@ Además de la evidencia común:
 - run record;
 - effort log;
 - incident log.
+
+## 17. Estado operacional actual
+
+Al momento de esta sincronización documental:
+
+- `PILOT-CONV-01`: `READY_TO_START / NOT_STARTED`;
+- `PILOT-PROP-01`: `PREPARED_NOT_STARTED`;
+- runtime propuesto: `NO INICIADO`;
+- reset CONV → PROP: `PREPARED_NOT_EXECUTED`;
+- D01–D05 introducidos: `NO`.
+
+Este procedimiento no autoriza iniciar `PILOT-PROP-01` antes de:
+
+1. completar y cerrar `PILOT-CONV-01`;
+2. archivar y verificar su evidencia;
+3. ejecutar y verificar el reset CONV → PROP;
+4. comprobar las condiciones iniciales equivalentes del workspace propuesto.
+
+La fuente de verdad del estado operacional vigente es `ESTADO_ACTUAL_TFM.md`.

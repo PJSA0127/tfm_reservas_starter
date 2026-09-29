@@ -1,4 +1,4 @@
-# Registro de esfuerzo — v0.1
+# Registro de esfuerzo — v0.2
 
 ## 1. Estado
 
@@ -52,12 +52,16 @@ Tiempo reservado para una actividad futura.
 
 ## 6. Reglas de cronometraje
 
-I2 es responsable de:
+I2 — **Carlos** es responsable de:
 
 - inicio;
 - fin;
 - pausas;
 - minutos activos.
+
+La asignación nominal vigente está registrada en `investigator_role_assignment_v0.1.md`.
+
+SHA-256 del registro: `219a8d9b925f101f6d1168a9d396a497c2a3997035e8d358f1a09ff78acfc631`.
 
 Cuando varios investigadores están activos, se registra cada tiempo individual.
 
@@ -83,7 +87,7 @@ Tratamiento:
 
 - se conserva como histórico;
 - no se incorpora a M2;
-- pertenece a construcción/preparación general del experimento según el anteproyecto;
+- pertenece a construcción/preparación general del experimento según `TFM - G7.docx`;
 - no se desagrega retrospectivamente sin evidencia.
 
 ## 9. Estimaciones de planificación histórica

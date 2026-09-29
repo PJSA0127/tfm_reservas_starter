@@ -1,163 +1,306 @@
 # TFM Reservas — laboratorio experimental de seguridad
 
-Aplicación web demostrativa y laboratorio reproducible para el TFM sobre **trazabilidad de requisitos de seguridad y verificación continua basada en OWASP ASVS 5.0.0 L1**.
+Aplicación web demostrativa y laboratorio reproducible para el TFM **Trazabilidad de requisitos de seguridad y verificación continua basada en OWASP ASVS**.
+
+El proyecto utiliza un subconjunto de seis requisitos OWASP ASVS 5.0.0 L1 y compara un proceso convencional de referencia con un proceso de verificación continua propuesto.
+
+El documento académico rector es `TFM - G7.docx`.
+
+El estado operacional vigente de las ejecuciones se mantiene en `ESTADO_ACTUAL_TFM.md`.
 
 ## Estado actual
 
-La rama de trabajo representa el **baseline seguro de calibración**. Todavía no contiene los defectos controlados D01–D05 y no constituye aún el protocolo experimental congelado.
+El repositorio se encuentra en estado **pre-piloto**.
 
-Componentes implementados y calibrados localmente:
+Baseline técnico congelado:
 
-- Flask + Jinja2 + Bootstrap 5.
-- Flask-Login.
-- Flask-WTF / CSRFProtect.
-- SQLAlchemy + Psycopg 3.
-- PostgreSQL 18 mediante Docker.
-- CRUD reducido de reservas.
-- Validación de servidor documentada mediante reglas BR-01–BR-12.
-- Autoescape de Jinja2 como baseline de codificación de salida.
-- Acceso a datos mediante ORM/consultas parametrizadas.
-- Operaciones de cambio de estado mediante métodos HTTP no seguros.
-- 18 pruebas funcionales `pytest`.
-- 22 pruebas específicas de seguridad `pytest`.
-- 40 pruebas totales ejecutadas satisfactoriamente durante calibración.
-- Semgrep CE 1.177.0 con 6 reglas locales versionadas y validación positiva 6/6 mediante fixtures sintéticos.
-- OWASP ZAP 2.17.0 con DAST autenticado, laboratorio aislado y control de robustez sin HTTP 5xx no controlados.
-- Workflow manual de GitHub Actions para el **proceso propuesto**.
+- tag: `pre-pilot-freeze-v0.1`;
+- commit técnico: `32d27a04305617f8fea031704e24d7e68ce9c451`;
+- D01–D05 introducidos: **NO**;
+- CAL-01: `PASS`;
+- CAL-02: `PASS`.
 
-Los resultados anteriores son evidencia de **desarrollo/calibración**, no resultados de la evaluación experimental definitiva.
+Estado operacional:
+
+- `PILOT-CONV-01`: `READY_TO_START / NOT_STARTED`;
+- `C00`: `NOT_STARTED`;
+- cronómetro experimental: `NO INICIADO`;
+- `PILOT-PROP-01`: `PREPARED_NOT_STARTED`;
+- reset CONV → PROP: `PREPARED_NOT_EXECUTED`;
+- versión experimental definitiva con D01–D05: `NO CREADA`.
+
+La preparación técnica, las calibraciones y el freeze pre-piloto no constituyen resultados experimentales.
+
+## Componentes implementados
+
+El baseline seguro incluye:
+
+- Flask + Jinja2 + Bootstrap 5;
+- Flask-Login;
+- Flask-WTF / CSRFProtect;
+- SQLAlchemy + Psycopg 3;
+- PostgreSQL 18 mediante Docker;
+- CRUD reducido de reservas;
+- reglas funcionales BR-01–BR-12;
+- autoescape de Jinja2 como baseline de codificación de salida;
+- acceso a datos mediante ORM y consultas parametrizadas;
+- operaciones de cambio de estado mediante métodos HTTP apropiados al baseline seguro;
+- 18 pruebas funcionales `pytest`;
+- 22 pruebas específicas de seguridad utilizadas por el proceso propuesto;
+- 40 pruebas totales ejecutadas satisfactoriamente durante calibración;
+- Semgrep Community Edition 1.177.0 con 6 reglas locales versionadas y validación positiva 6/6 mediante fixtures sintéticos;
+- OWASP ZAP 2.17.0 con DAST autenticado, laboratorio aislado y control de robustez sin HTTP 5xx no controlados;
+- workflow manual de GitHub Actions exclusivo del proceso propuesto.
+
+Durante la calibración técnica se ejecutaron satisfactoriamente las suites y mecanismos necesarios para validar el laboratorio.
+
+Esos resultados corresponden a desarrollo y calibración y no forman parte de las métricas experimentales definitivas.
 
 ## Estructura relevante
 
-```text
-app/                         Aplicación Flask
+- `app/` — aplicación Flask.
+- `tests/functional/` — pruebas funcionales comunes.
+- `tests/security/` — pruebas específicas del proceso propuesto.
+- `security/semgrep/` — reglas y documentación SAST.
+- `security/zap/` — planes y documentación DAST.
+- `docs/experiment/protocol/` — protocolo, procedimientos e instrumentos.
+- `docs/experiment/traceability/` — matrices y documentación de trazabilidad.
+- `scripts/` — utilidades del laboratorio y CI.
+- `.github/workflows/` — workflow manual del proceso propuesto.
+- `evidence/` — evidencia experimental y metadatos de preparación.
 
-tests/functional/            Pruebas funcionales comunes
+## Preparación local de desarrollo
 
-tests/security/              Pruebas específicas del proceso propuesto
+Estas instrucciones corresponden al entorno de desarrollo y mantenimiento del laboratorio.
 
-security/semgrep/            Reglas y documentación SAST
+No deben utilizarse para reconstruir arbitrariamente un workspace experimental ya congelado durante una ejecución.
 
-security/zap/                Planes y documentación DAST
+### Variables de entorno
 
-docs/experiment/protocol/    Procedimiento, reglas y documentación de ejecución
+Crear `.env` a partir de `.env.example` cuando corresponda:
 
-docs/experiment/traceability/ Matrices y registros de calibración
+`Copy-Item .env.example .env`
 
-scripts/                     Utilidades de laboratorio/CI
+### Construcción y arranque
 
-.github/workflows/           CI manual exclusiva del proceso propuesto
-```
+`docker compose up -d --build web`
 
-## Preparación local
+Compose espera a `db`, ejecuta `db_init` y posteriormente inicia `web`.
 
-1. Copiar `.env.example` a `.env`:
+`db_init` debe finalizar correctamente con código `0`.
 
-   ```powershell
-   Copy-Item .env.example .env
-   ```
+### Usuario local
 
-2. Construir y levantar la aplicación:
+Cuando sea necesario en un entorno de desarrollo:
 
-   ```powershell
-   docker compose up -d --build web
-   ```
+`docker compose exec web flask --app app:create_app create-user`
 
-   Compose espera a `db`, ejecuta automáticamente `db_init` y solo después inicia `web`. `db_init` debe finalizar con código `0`; no es necesario ejecutar `init-db` manualmente.
+Aplicación local:
 
-3. Crear un usuario local cuando sea necesario:
-
-   ```powershell
-   docker compose exec web flask --app app:create_app create-user
-   ```
-
-4. Abrir `http://localhost:5000`.
+`http://localhost:5000`
 
 ## Pruebas
 
-### Funcionales
+### Pruebas funcionales comunes
 
-```powershell
-docker compose --profile test run --rm test
-```
+`docker compose --profile test run --rm test`
 
-### Seguridad específica
+Estas pruebas forman parte de las actividades comunes, pero durante un run experimental deben ejecutarse únicamente en el paso previsto por el protocolo.
 
-```powershell
-docker compose --profile test run --rm test pytest -v tests/security
-```
+### Pruebas específicas de seguridad
+
+`docker compose --profile test run --rm test pytest -v tests/security`
+
+Estas pruebas pertenecen al proceso propuesto.
+
+**No deben ejecutarse durante `PILOT-CONV-01` ni durante la evaluación definitiva del proceso convencional.**
 
 ### Suite completa de calibración
 
-```powershell
-docker compose --profile test run --rm test pytest -v tests
-```
+`docker compose --profile test run --rm test pytest -v tests`
+
+Este comando pertenece a actividades de desarrollo/calibración.
+
+No debe utilizarse como sustituto de los pasos definidos por el protocolo durante un run experimental.
 
 ## Semgrep
 
-```powershell
-docker compose --profile security run --rm semgrep semgrep --version
-docker compose --profile security run --rm semgrep
-```
+Comandos de desarrollo/calibración:
 
-El reporte local se escribe en `artifacts/semgrep/semgrep-report.json`. El nombre es deliberadamente neutro para que la misma ruta pueda utilizarse en `calibration`, `pilot` y `proposed-definitive`; la fase se registra en los metadatos del run.
+- `docker compose --profile security run --rm semgrep semgrep --version`
+- `docker compose --profile security run --rm semgrep`
+
+El reporte se genera en:
+
+`artifacts/semgrep/semgrep-report.json`
+
+La ruta utiliza una denominación neutral y la fase correspondiente se registra mediante metadatos.
+
+Semgrep pertenece al proceso propuesto y **no debe ejecutarse durante el proceso convencional**.
 
 ## OWASP ZAP
 
-El DAST utiliza un laboratorio separado (`db_dast`, `dast_init`, `web_dast`, `zap`) para no modificar la base principal ni la base de pruebas.
+El DAST utiliza un entorno separado compuesto por:
 
-```powershell
-docker compose --profile dast down --remove-orphans
-docker compose --profile dast up -d web_dast
-docker compose --profile dast run --rm zap
-```
+- `db_dast`;
+- `dast_init`;
+- `web_dast`;
+- `zap`.
 
-`web_dast` depende de `db_dast` healthy y de `dast_init` completado correctamente, por lo que el seed se ejecuta automáticamente. Durante calibración se confirmó además que el scan no provoca respuestas HTTP 5xx ni excepciones no controladas.
+Comandos de desarrollo/calibración:
 
-La configuración final de calibración exige autenticación satisfactoria antes de ejecutar spider y active scan. Los reportes se generan como `artifacts/zap/zap-report.json` y `artifacts/zap/zap-report.html`; la fase experimental se identifica mediante metadatos y no mediante el nombre del archivo.
+- `docker compose --profile dast down --remove-orphans`
+- `docker compose --profile dast up -d web_dast`
+- `docker compose --profile dast run --rm zap`
+
+Los reportes se generan en:
+
+- `artifacts/zap/zap-report.json`;
+- `artifacts/zap/zap-report.html`.
+
+La configuración validada requiere autenticación satisfactoria antes de spider y active scan. Durante la calibración también se verificó que el DAST no produjera respuestas HTTP 5xx ni excepciones no controladas.
+
+OWASP ZAP pertenece al proceso propuesto y **no debe ejecutarse durante el proceso convencional**.
 
 ## GitHub Actions
 
-Solo existe el workflow experimental:
+El workflow experimental del proceso propuesto es:
 
-```text
-.github/workflows/proposed-security-verification.yml
-```
+`.github/workflows/proposed-security-verification.yml`
 
-Durante desarrollo, `.github/dependabot.yml` revisa únicamente actualizaciones del ecosistema `github-actions`. Es un mecanismo de apoyo; antes del piloto/freeze las Actions usadas experimentalmente se fijarán por SHA completo.
+Su ejecución es exclusivamente manual mediante `workflow_dispatch`.
 
-Se ejecuta exclusivamente mediante `workflow_dispatch` y ofrece las fases:
+Fases definidas:
 
-- `calibration`
-- `pilot`
-- `proposed-definitive`
+- `calibration`;
+- `pilot`;
+- `proposed-definitive`.
 
-**No debe ejecutarse durante la evaluación definitiva del proceso convencional.** No existe un workflow automático en `push`/`pull_request` para evitar contaminación experimental.
+No existe un workflow automático experimental en `push` o `pull_request`, para evitar contaminación de las ejecuciones.
+
+Las GitHub Actions utilizadas por el workflow fueron fijadas por SHA completo antes del piloto.
+
+Las dependencias Python relevantes se encuentran congeladas mediante `requirements.lock` y las imágenes técnicas utilizadas por el laboratorio fueron inmovilizadas mediante digest cuando corresponde.
+
+`.github/dependabot.yml` se utiliza únicamente como apoyo durante desarrollo para revisar actualizaciones del ecosistema `github-actions`.
+
+Una actualización sugerida por Dependabot no modifica automáticamente el baseline experimental congelado.
+
+## Calibraciones remotas
+
+Se completaron dos validaciones remotas previas al piloto.
+
+### CAL-01
+
+Objetivo: comprobar el funcionamiento real del workflow y sus artifacts en GitHub Actions.
+
+Resultado: `PASS`.
+
+### CAL-02
+
+Objetivo: verificar que la inmovilización técnica de dependencias, imágenes y GitHub Actions mantuviera el comportamiento esperado del baseline seguro.
+
+Resultado: `PASS`.
+
+El commit técnico validado por CAL-02 es:
+
+`32d27a04305617f8fea031704e24d7e68ce9c451`
+
+CAL-01 y CAL-02 son calibraciones técnicas.
+
+**No son ejecuciones de `PILOT-CONV-01` ni `PILOT-PROP-01`.**
 
 ## Seguridad de archivos locales
 
-No deben versionarse:
+No deben versionarse archivos o resultados locales que no formen parte deliberadamente del repositorio, entre ellos:
 
-- `.env`
-- `artifacts/`
-- reportes diagnósticos de autenticación ZAP
-- caches locales
+- `.env`;
+- artifacts temporales;
+- reportes diagnósticos locales;
+- caches;
+- archivos de ejecución no destinados a Git.
 
-El archivo `.dockerignore` evita además que estos elementos entren accidentalmente al contexto de construcción Docker.
+`.dockerignore` evita que elementos locales innecesarios entren accidentalmente al contexto de construcción Docker.
 
-## Estrategia experimental
+La evidencia experimental se gestiona conforme a `docs/experiment/protocol/evidence_archival_v0.1.md`.
 
-No introducir D01–D05 todavía.
+## Proceso convencional
 
-Antes de construir la versión experimental con defectos controlados deben completarse, entre otros:
+El proceso convencional utiliza un workspace sanitizado construido mediante allowlist.
 
-1. validación exhaustiva local completada y validación remota de CI pendiente;
-2. procedimiento convencional fijo;
-3. instrumento independiente de cobertura;
-4. protocolo piloto;
-5. manifiesto reproducible del entorno;
-6. workspace convencional sanitizado;
-7. ejecución piloto sobre baseline seguro;
-8. congelación del protocolo y de versiones/digests.
+Para `PILOT-CONV-01` existen:
 
-Después se generará `experiment-v1`, usado de forma idéntica por ambos procesos en la evaluación definitiva.
+- workspace sanitizado de preparación: `D:\Repositorios\tfm_reservas_pilot_conv`;
+- workspace de ejecución: `D:\Repositorios\tfm_reservas_pilot_conv_run`.
+
+Este workspace procede del baseline seguro sin D01–D05.
+
+Durante el proceso convencional está prohibido utilizar como guía:
+
+- OWASP ASVS explícito;
+- catálogo D01–D05;
+- ubicación o mappings de defectos;
+- matriz requisito-prueba-evidencia;
+- pruebas específicas de seguridad;
+- Semgrep;
+- OWASP ZAP;
+- workflow del proceso propuesto;
+- pruebas ad hoc destinadas a confirmar sospechas.
+
+## Proceso propuesto
+
+El workspace pre-piloto del proceso propuesto está preparado, pero su runtime no se inicia antes del cierre de `PILOT-CONV-01` y del reset formal correspondiente.
+
+El proceso propuesto incorpora, además de las actividades comunes:
+
+- requisitos OWASP ASVS seleccionados de forma explícita;
+- matriz requisito-prueba-evidencia;
+- pruebas específicas de seguridad;
+- Semgrep;
+- OWASP ZAP;
+- GitHub Actions;
+- conservación sistemática de evidencias.
+
+## Secuencia del piloto
+
+La secuencia vigente es:
+
+`revalidación mínima → C00 → C01 → C02 → C03 → C04 → C05 → C06 → cierre y archivo → reset → PILOT-PROP-01`
+
+Antes de C00 no deben repetirse freezes, hashes, calibraciones o reconstrucciones ya cerradas salvo evidencia concreta de inconsistencia.
+
+Los resultados y tiempos de ejecución propiamente dichos del piloto no forman parte de la comparación experimental definitiva.
+
+## Versión experimental definitiva
+
+D01–D05 **todavía no han sido introducidos**.
+
+La versión experimental definitiva se preparará únicamente después de:
+
+1. completar ambos pilotos;
+2. analizar sus incidencias y lecciones;
+3. aplicar únicamente los ajustes permitidos;
+4. versionar los instrumentos modificados, si corresponde;
+5. congelar el protocolo experimental definitivo;
+6. introducir de forma controlada D01–D05;
+7. validar la funcionalidad y correspondencia de los defectos;
+8. fijar el commit/tag experimental definitivo.
+
+La misma versión experimental definitiva será utilizada como origen técnico para:
+
+- `DEF-CONV-01`;
+- `DEF-PROP-01`.
+
+No se modificará el código entre ambas evaluaciones definitivas.
+
+## Jerarquía documental
+
+La jerarquía vigente es:
+
+`TFM - G7 → PROTOCOLO EXPERIMENTAL → INSTRUMENTOS / DOCUMENTACIÓN TÉCNICA → CÓDIGO / AUTOMATIZACIÓN / EJECUCIONES / EVIDENCIAS`
+
+Un artefacto inferior no puede redefinir una decisión establecida por un nivel superior.
+
+`ESTADO_ACTUAL_TFM.md` constituye la fuente de verdad del estado operacional vigente.
+
+El Gantt se utiliza para planificación y seguimiento temporal, no para determinar automáticamente qué paso experimental puede ejecutarse.

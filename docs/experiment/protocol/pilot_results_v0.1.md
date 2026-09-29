@@ -11,7 +11,7 @@
 | Run convencional | `PILOT-CONV-01` |
 | Run propuesto | `PILOT-PROP-01` |
 | Baseline | Sin D01–D05 |
-| Commit/tag baseline | PENDIENTE |
+| Commit/tag baseline | `32d27a04305617f8fea031704e24d7e68ce9c451` / `pre-pilot-freeze-v0.1` |
 
 ## Evaluación del piloto
 

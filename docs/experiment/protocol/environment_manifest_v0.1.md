@@ -1,4 +1,4 @@
-# Manifiesto del entorno experimental — v0.1
+# Manifiesto del entorno experimental — v0.2
 
 ## Estado
 
@@ -56,7 +56,9 @@ Validación local, CAL-01 y CAL-02 completadas; freeze técnico pre-piloto valid
 | Active scan principal | 40012, 40014, 40018 |
 | Complementario CSRF | 10202 |
 
-## Resultados locales actuales
+## Resultados de calibración técnica
+
+Los resultados siguientes corresponden a desarrollo y calibración técnica del baseline seguro. No constituyen resultados experimentales de `PILOT-CONV-01`, `PILOT-PROP-01`, `DEF-CONV-01` ni `DEF-PROP-01`.
 
 | Mecanismo | Resultado |
 |---|---|
@@ -76,7 +78,7 @@ Validación local, CAL-01 y CAL-02 completadas; freeze técnico pre-piloto valid
 
 ## GitHub Actions — entorno adicional del proceso propuesto
 
-El host local documentado anteriormente es el entorno común para las actividades equivalentes de ambos procesos. GitHub Actions constituye un entorno automatizado adicional del proceso propuesto, previsto expresamente en el anteproyecto. Sus características se registran por separado para no confundirlas con el host local común.
+El host local documentado anteriormente es el entorno común para las actividades equivalentes de ambos procesos. GitHub Actions constituye un entorno automatizado adicional del proceso propuesto, previsto expresamente en `TFM - G7.docx`. Sus características se registran por separado para no confundirlas con el host local común.
 
 | Elemento | Valor actual |
 |---|---|
@@ -87,6 +89,18 @@ El host local documentado anteriormente es el entorno común para las actividade
 | Ejecución CAL-01 | PASS - Run ID `35247019707` - commit `7cfa55bc7bc96d67112f37d19e681007ec19d425` |
 | Ejecución CAL-02 | PASS - Run ID `35251661421` - commit `32d27a04305617f8fea031704e24d7e68ce9c451` |
 
-## Pendientes de freeze
+## Pendientes del freeze experimental definitivo
 
-- tag de la versión experimental definitiva con D01-D05;
+- tag de la versión experimental definitiva con D01–D05;
+El freeze técnico pre-piloto ya se encuentra cerrado mediante `pre-pilot-freeze-v0.1`.
+
+El pendiente anterior corresponde exclusivamente a la futura versión experimental definitiva que se preparará después de completar ambos pilotos, analizar sus incidencias y congelar el protocolo experimental definitivo.
+
+Estado operacional al momento de esta actualización:
+
+- `PILOT-CONV-01`: `READY_TO_START / NOT_STARTED`;
+- `C00`: `NOT_STARTED`;
+- `PILOT-PROP-01`: `PREPARED_NOT_STARTED`;
+- D01–D05 introducidos: `NO`.
+
+La fuente de verdad del estado operacional vigente es `ESTADO_ACTUAL_TFM.md`.

@@ -10,9 +10,9 @@
 | Fecha | PENDIENTE |
 | Commit/tag origen | PENDIENTE |
 | Workspace | PENDIENTE |
-| I1 | PENDIENTE |
-| I2 | PENDIENTE |
-| I3 | PENDIENTE |
+| I1 | Paulo — Ejecutor principal |
+| I2 | Carlos — Registrador de evidencia y esfuerzo |
+| I3 | Jorge — Supervisor del protocolo |
 | Hora de apertura | PENDIENTE |
 | Hora de cierre | PENDIENTE |
 

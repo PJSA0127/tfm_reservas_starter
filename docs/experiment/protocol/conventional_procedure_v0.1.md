@@ -1,18 +1,22 @@
-# Procedimiento convencional — v0.1
+# Procedimiento convencional — v0.2
 
 ## 1. Estado
 
-**CERRADO PARA PILOTAJE / PRE-FREEZE.**
+**CERRADO PARA PILOTAJE / PILOTO NO INICIADO / FREEZE DEFINITIVO PENDIENTE.**
 
 ## 2. Objetivo
 
-Ejecutar el proceso convencional de referencia descrito en el anteproyecto sin utilizar como guía explícita ASVS, trazabilidad de seguridad ni los mecanismos SAST/DAST específicos del proceso propuesto.
+Ejecutar el proceso convencional de referencia definido en `TFM - G7.docx` sin utilizar como guía explícita OWASP ASVS, trazabilidad requisito-prueba-evidencia ni los mecanismos SAST/DAST específicos del proceso propuesto.
 
 ## 3. Roles
 
-- **I1:** ejecutor principal.
-- **I2:** registro de esfuerzo/evidencia.
-- **I3:** supervisor del protocolo.
+- **I1 — Paulo:** ejecutor principal.
+- **I2 — Carlos:** registro de esfuerzo/evidencia.
+- **I3 — Jorge:** supervisor del protocolo.
+
+Asignación formal: `investigator_role_assignment_v0.1.md`.
+
+SHA-256 del registro: `219a8d9b925f101f6d1168a9d396a497c2a3997035e8d358f1a09ff78acfc631`.
 
 Los mismos roles se mantienen en las actividades equivalentes del proceso propuesto.
 
@@ -93,7 +97,7 @@ Utilizar exclusivamente los casos derivados previamente de BR-01–BR-12:
 - inválidos;
 - valores de frontera.
 
-No se agregan casos nuevos durante la fase definitiva.
+No se agregan casos nuevos durante una ejecución piloto ni durante una ejecución definitiva.
 
 ### C04 — Revisión técnica de código
 
