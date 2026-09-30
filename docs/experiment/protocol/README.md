@@ -1,6 +1,6 @@
-# Protocolo experimental — índice documental v0.6
+# Protocolo experimental — índice documental v0.7
 
-**Estado general:** PREPARADO PARA PILOTAJE / PILOTO NO INICIADO
+**Estado general:** POST-PILOT-CONV-01 / RUN INVALIDADO Y ARCHIVADO / INSTRUMENTOS v0.2 PENDIENTES DE REVALIDACIÓN / PILOT-CONV-02 NO INICIADO
 **Documento rector:** `TFM - G7.docx`
 **Fuente de verdad del estado operacional:** `ESTADO_ACTUAL_TFM.md`
 **Marco:** OWASP ASVS 5.0.0 L1
@@ -109,23 +109,23 @@ Los resultados del piloto no se utilizan para calcular las métricas definitivas
 |---|---|---|
 | `experimental_design_v0.1.md` | Operacionalización del diseño del TFM | Cerrado para pilotaje |
 | `business_rules_v0.1.md` | Reglas funcionales | Definido |
-| `conventional_procedure_v0.1.md` | Procedimiento convencional fijo | Cerrado para pilotaje |
+| `conventional_procedure_v0.2.md` | Procedimiento convencional ajustado tras el piloto | Pendiente de revalidación |
 | `proposed_procedure_v0.1.md` | Procedimiento propuesto fijo | Cerrado para pilotaje |
 | `metrics_definition_v0.1.md` | Cobertura, esfuerzo y detección | Cerrado para pilotaje |
 | `independent_coverage_instrument_v0.1.md` | Asociación posterior evidencia–requisito | Cerrado para pilotaje |
 | `reset_procedure_v0.1.md` | Restauración del estado experimental | Cerrado para pilotaje |
-| `conventional_workspace_sanitization_v0.1.md` | Construcción y validación del workspace convencional | Workspace real preparado y validado; piloto no iniciado |
-| `pilot_protocol_v0.1.md` | Piloto previo a medición definitiva | Cerrado para pilotaje; ejecución no iniciada |
+| `conventional_workspace_sanitization_v0.2.md` | Construcción y validación del workspace convencional | Pendiente de reconstrucción/revalidación para PILOT-CONV-02 |
+| `pilot_protocol_v0.2.md` | Piloto previo a medición definitiva | Actualizado tras invalidación de PILOT-CONV-01; PILOT-CONV-02 pendiente |
 | `run_record_template_v0.1.md` | Registro por ejecución | Cerrado como plantilla |
 | `effort_log_v0.1.md` | Minutos-persona y tiempos automáticos | Instrumento cerrado; datos observados pendientes |
 | `incident_log_v0.1.md` | Incidencias | Cerrado como instrumento; datos observados pendientes |
-| `pilot_execution_log_v0.1.md` | Registro de ambos runs piloto y reset | Plantilla cerrada; ejecución no iniciada |
-| `pilot_results_v0.1.md` | Consolidación de resultados del piloto | Plantilla cerrada; resultados pendientes |
+| `pilot_execution_log_v0.2.md` | Registro de runs piloto y reset | PILOT-CONV-01 registrado como invalidado; PILOT-CONV-02 pendiente |
+| `pilot_results_v0.2.md` | Consolidación parcial de resultados del piloto | PILOT-CONV-01 documentado; piloto completo pendiente |
 | `evidence_archival_v0.1.md` | Conservación de evidencias | Estructura definida; rutas primaria/secundaria preparadas y verificadas |
 | `ci_execution_v0.1.md` | Ejecución CI del proceso propuesto | CAL-01/CAL-02 validadas; pilot y proposed-definitive pendientes |
 | `environment_manifest_v0.1.md` | Versiones, dependencias, host y digests | Freeze técnico pre-piloto validado; versión experimental definitiva pendiente |
 | `pre_github_validation_plan_v0.1.md` | Validación técnica pre-GitHub | Histórico; validación local completada y calibración remota realizada posteriormente |
-| `protocol_freeze_checklist_v0.1.md` | Condiciones de preparación y congelación | Preparación pre-piloto completada; piloto y freeze definitivo pendientes |
+| `protocol_freeze_checklist_v0.2.md` | Condiciones de preparación y congelación | PILOT-CONV-01 archivado; revalidación de ajustes y freeze definitivo pendientes |
 | `audit_transversal_corrections_v0.1.md` | Registro de correcciones metodológicas transversales | Histórico vigente; debe conservar trazabilidad de las correcciones |
 
 ## Estado experimental
@@ -162,3 +162,23 @@ Durante el piloto solo podrán realizarse ajustes permitidos por el protocolo y 
 No se modificará retroactivamente evidencia ya cerrada o hasheada.
 
 Los datos aún no observados permanecen como `PENDIENTE`.
+
+| `manual_cases_v0.2.md` | Casos manuales convencionales | Ajustados tras PILOT-CONV-01; pendientes de revalidación |
+| `post_pilot_instrument_adjustments_v0.1.md` | Trazabilidad de ajustes derivados de PILOT-CONV-01 | Documentado; pendiente de revalidación |
+
+## Estado post-PILOT-CONV-01
+
+`PILOT-CONV-01` fue ejecutado el 2026-09-29 y quedó `INVALIDATED - EXCLUDED FROM FINAL COMPARISON` por `INC-C03-001` e `INC-C03-002`.
+
+Su evidencia está cerrada, sellada y archivada.
+
+La secuencia operacional vigente es:
+
+1. revalidar los instrumentos post-piloto;
+2. preparar `PILOT-CONV-02` sobre el mismo baseline seguro;
+3. ejecutar y cerrar `PILOT-CONV-02`;
+4. realizar el reset completo después de disponer de un intento convencional piloto válido;
+5. ejecutar `PILOT-PROP-01`;
+6. cerrar ambos componentes del piloto y realizar el freeze definitivo.
+
+`PILOT-CONV-02` permanece NO INICIADO.
