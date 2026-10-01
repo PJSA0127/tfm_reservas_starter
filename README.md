@@ -10,7 +10,7 @@ El estado operacional vigente de las ejecuciones se mantiene en `ESTADO_ACTUAL_T
 
 ## Estado actual
 
-El repositorio se encuentra en estado **pre-piloto**.
+El repositorio se encuentra en estado **piloto en curso / transición completada al proceso propuesto**.
 
 Baseline técnico congelado:
 
@@ -22,11 +22,14 @@ Baseline técnico congelado:
 
 Estado operacional:
 
-- `PILOT-CONV-01`: `READY_TO_START / NOT_STARTED`;
-- `C00`: `NOT_STARTED`;
-- cronómetro experimental: `NO INICIADO`;
-- `PILOT-PROP-01`: `PREPARED_NOT_STARTED`;
-- reset CONV → PROP: `PREPARED_NOT_EXECUTED`;
+- `PILOT-CONV-01`: `INVALIDATED - EXCLUDED FROM FINAL COMPARISON` / archivado;
+- `REV-INSTR-01`: `5/5 PASS`;
+- `PILOT-CONV-02`: `VÁLIDO / COMPLETADO / ARCHIVADO`;
+- reset CONV → PROP: `PASS`;
+- incidencia de reset R06: `RESUELTA` antes de iniciar PROP;
+- revalidación metodológica pre-PROP: `PASS`;
+- `PILOT-PROP-01`: `READY_TO_START / NOT_STARTED`;
+- cronómetro de `PILOT-PROP-01`: `NO INICIADO`;
 - versión experimental definitiva con D01–D05: `NO CREADA`.
 
 La preparación técnica, las calibraciones y el freeze pre-piloto no constituyen resultados experimentales.

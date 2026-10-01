@@ -96,10 +96,10 @@ El estado operacional exacto de los runs se mantiene en `ESTADO_ACTUAL_TFM.md`.
 - [x] Run IDs del piloto definidos;
 - [x] commit/tag baseline técnico pre-piloto fijado;
 - [x] asignación nominal de I1/I2/I3 registrada y protegida mediante SHA-256;
-- [ ] fecha/hora real de inicio de `PILOT-CONV-01` registrada;
-- [ ] `PILOT-CONV-01` ejecutado y cerrado;
-- [ ] evidencia de `PILOT-CONV-01` archivada y verificada;
-- [ ] reset CONV -> PROP ejecutado y verificado;
+- [x] fecha/hora real de inicio de `PILOT-CONV-01` registrada;
+- [x] `PILOT-CONV-01` ejecutado y cerrado;
+- [x] evidencia de `PILOT-CONV-01` archivada y verificada;
+- [x] reset CONV -> PROP ejecutado y verificado;
 - [ ] `PILOT-PROP-01` ejecutado y cerrado;
 - [ ] incidencias del piloto analizadas y resueltas conforme al protocolo;
 - [ ] resultados y lecciones del piloto cerrados;
@@ -189,14 +189,16 @@ La existencia de condiciones pendientes de la evaluación definitiva **no bloque
 - [x] ajustes derivados documentados y versionados.
 - [x] `manual_cases_v0.2.md` generado.
 - [x] `conventional_procedure_v0.2.md` generado.
-- [ ] revalidar las cinco correcciones de instrumentación.
-- [ ] aprobar instrumentos v0.2 para nuevo freeze piloto.
-- [ ] reconstruir y validar workspace convencional para `PILOT-CONV-02`.
-- [ ] generar manifiesto y paquete específico de `PILOT-CONV-02`.
-- [ ] ejecutar y cerrar `PILOT-CONV-02`.
-- [ ] ejecutar reset CONV -> PROP.
+- [x] revalidar las cinco correcciones de instrumentación.
+- [x] aprobar instrumentos v0.2 para nuevo freeze piloto.
+- [x] reconstruir y validar workspace convencional para `PILOT-CONV-02`.
+- [x] generar manifiesto y paquete específico de `PILOT-CONV-02`.
+- [x] ejecutar y cerrar `PILOT-CONV-02`.
+- [x] ejecutar reset CONV -> PROP.
+- [x] revalidar workspace propuesto con los instrumentos comunes v0.2 sin alterar el baseline técnico.
+- [x] autorizar `PILOT-PROP-01` en estado `READY_TO_START / NOT_STARTED`.
 - [ ] ejecutar y cerrar `PILOT-PROP-01`.
 - [ ] cerrar resultados globales del piloto.
 - [ ] congelar protocolo experimental definitivo.
 
-El nuevo freeze no está autorizado hasta completar la revalidación y la preparación de `PILOT-CONV-02`.
+La revalidación de instrumentos, `PILOT-CONV-02` y el reset CONV -> PROP están completados. `PILOT-PROP-01` permanece `READY_TO_START / NOT_STARTED`; el freeze experimental definitivo continúa pendiente hasta cerrar el piloto completo.

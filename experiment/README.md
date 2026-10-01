@@ -25,13 +25,12 @@ La versión destinada a la evaluación definitiva todavía no ha sido creada.
 
 Después de:
 
-1. completar `PILOT-CONV-01`;
-2. cerrar y archivar su evidencia;
-3. ejecutar el reset CONV → PROP;
-4. completar `PILOT-PROP-01`;
-5. analizar las incidencias y lecciones de ambos pilotos;
-6. aplicar únicamente los ajustes permitidos;
-7. congelar el protocolo experimental definitivo;
+1. completar y archivar un intento convencional piloto válido (`PILOT-CONV-02`);
+2. ejecutar y verificar el reset CONV → PROP;
+3. completar `PILOT-PROP-01`;
+4. analizar las incidencias y lecciones del piloto;
+5. aplicar únicamente los ajustes permitidos;
+6. congelar el protocolo experimental definitivo;
 
 se incorporarán de forma controlada D01–D05 y se fijará mediante commit/tag la versión experimental definitiva.
 
@@ -71,9 +70,11 @@ Durante la evaluación definitiva, el proceso convencional utilizará la misma v
 
 ## Estado actual
 
-- `PILOT-CONV-01`: `READY_TO_START / NOT_STARTED`;
-- `PILOT-PROP-01`: `PREPARED_NOT_STARTED`;
-- reset CONV → PROP: `PREPARED_NOT_EXECUTED`;
+- `PILOT-CONV-01`: `INVALIDATED - EXCLUDED FROM FINAL COMPARISON` / archivado;
+- `PILOT-CONV-02`: `VÁLIDO / COMPLETADO / ARCHIVADO`;
+- reset CONV → PROP: `PASS`;
+- revalidación metodológica pre-PROP: `PASS`;
+- `PILOT-PROP-01`: `READY_TO_START / NOT_STARTED`;
 - D01–D05 introducidos: `NO`;
 - versión experimental definitiva: `NO CREADA`.
 

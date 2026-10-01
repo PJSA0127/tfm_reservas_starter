@@ -1,6 +1,6 @@
 # Protocolo experimental — índice documental v0.8
 
-**Estado general:** PILOT-CONV-01 INVALIDADO Y ARCHIVADO / REV-INSTR-01 5/5 PASS / INSTRUMENTOS v0.2 REVALIDADOS / PILOT-CONV-02 READY_TO_START / NOT_STARTED
+**Estado general:** PILOT-CONV-01 INVALIDADO Y ARCHIVADO / REV-INSTR-01 5/5 PASS / PILOT-CONV-02 VÁLIDO Y ARCHIVADO / RESET CONV→PROP PASS / PILOT-PROP-01 READY_TO_START / NOT_STARTED
 **Documento rector:** `TFM - G7.docx`
 **Fuente de verdad del estado operacional:** `ESTADO_ACTUAL_TFM.md`
 **Marco:** OWASP ASVS 5.0.0 L1
@@ -109,23 +109,23 @@ Los resultados del piloto no se utilizan para calcular las métricas definitivas
 |---|---|---|
 | `experimental_design_v0.1.md` | Operacionalización del diseño del TFM | Cerrado para pilotaje |
 | `business_rules_v0.1.md` | Reglas funcionales | Definido |
-| `conventional_procedure_v0.2.md` | Procedimiento convencional ajustado tras el piloto | Revalidado en REV-INSTR-01; vigente para PILOT-CONV-02 |
+| `conventional_procedure_v0.2.md` | Procedimiento convencional ajustado tras el piloto | Revalidado en REV-INSTR-01; utilizado en PILOT-CONV-02 y activo para actividades comunes de PILOT-PROP-01 |
 | `proposed_procedure_v0.1.md` | Procedimiento propuesto fijo | Cerrado para pilotaje |
 | `metrics_definition_v0.1.md` | Cobertura, esfuerzo y detección | Cerrado para pilotaje |
 | `independent_coverage_instrument_v0.1.md` | Asociación posterior evidencia–requisito | Cerrado para pilotaje |
 | `reset_procedure_v0.1.md` | Restauración del estado experimental | Cerrado para pilotaje |
 | `conventional_workspace_sanitization_v0.2.md` | Construcción y validación del workspace convencional | Workspace PILOT-CONV-02 reconstruido, verificado y congelado |
-| `pilot_protocol_v0.2.md` | Piloto previo a medición definitiva | Vigente; PILOT-CONV-02 READY_TO_START / NOT_STARTED |
+| `pilot_protocol_v0.2.md` | Piloto previo a medición definitiva | Vigente; PILOT-CONV-02 cerrado y PILOT-PROP-01 READY_TO_START / NOT_STARTED |
 | `run_record_template_v0.1.md` | Registro por ejecución | Cerrado como plantilla |
 | `effort_log_v0.1.md` | Minutos-persona y tiempos automáticos | Instrumento cerrado; datos observados pendientes |
 | `incident_log_v0.1.md` | Incidencias | Cerrado como instrumento; datos observados pendientes |
-| `pilot_execution_log_v0.2.md` | Registro de runs piloto y reset | PILOT-CONV-01 invalidado; PILOT-CONV-02 preparado y aún no iniciado |
-| `pilot_results_v0.2.md` | Consolidación parcial de resultados del piloto | PILOT-CONV-01 invalidado documentado; PILOT-CONV-02 aún sin resultados |
+| `pilot_execution_log_v0.2.md` | Registro de runs piloto y reset | PILOT-CONV-01 invalidado; PILOT-CONV-02 válido y archivado; reset PASS; PILOT-PROP-01 READY_TO_START |
+| `pilot_results_v0.2.md` | Consolidación parcial de resultados del piloto | PILOT-CONV-01 invalidado y PILOT-CONV-02 válido documentados; PILOT-PROP-01 pendiente |
 | `evidence_archival_v0.1.md` | Conservación de evidencias | Estructura definida; rutas primaria/secundaria preparadas y verificadas |
 | `ci_execution_v0.1.md` | Ejecución CI del proceso propuesto | CAL-01/CAL-02 validadas; pilot y proposed-definitive pendientes |
 | `environment_manifest_v0.1.md` | Versiones, dependencias, host y digests | Freeze técnico pre-piloto validado; versión experimental definitiva pendiente |
 | `pre_github_validation_plan_v0.1.md` | Validación técnica pre-GitHub | Histórico; validación local completada y calibración remota realizada posteriormente |
-| `protocol_freeze_checklist_v0.2.md` | Condiciones de preparación y congelación | REV-INSTR-01 completada; freeze final de PILOT-CONV-02 completado |
+| `protocol_freeze_checklist_v0.2.md` | Condiciones de preparación y congelación | Convencional piloto válido cerrado; reset PASS; PROP preparado y revalidado |
 | `audit_transversal_corrections_v0.1.md` | Registro de correcciones metodológicas transversales | Histórico vigente; debe conservar trazabilidad de las correcciones |
 
 ## Estado experimental
@@ -163,22 +163,22 @@ No se modificará retroactivamente evidencia ya cerrada o hasheada.
 
 Los datos aún no observados permanecen como `PENDIENTE`.
 
-| `manual_cases_v0.2.md` | Casos manuales convencionales | Revalidados en REV-INSTR-01; vigentes para PILOT-CONV-02 |
+| `manual_cases_v0.2.md` | Casos manuales comunes | Revalidados en REV-INSTR-01; utilizados en PILOT-CONV-02 y activos para P01 de PILOT-PROP-01 |
 | `post_pilot_instrument_adjustments_v0.1.md` | Trazabilidad de ajustes derivados de PILOT-CONV-01 | Documentado; ajustes revalidados en REV-INSTR-01 5/5 PASS |
 
-## Estado post-PILOT-CONV-01
+## Estado previo a PILOT-PROP-01
 
-`PILOT-CONV-01` fue ejecutado el 2026-09-29 y quedó `INVALIDATED - EXCLUDED FROM FINAL COMPARISON` por `INC-C03-001` e `INC-C03-002`.
+`PILOT-CONV-01` fue ejecutado el 2026-09-29 y quedó `INVALIDATED - EXCLUDED FROM FINAL COMPARISON` por `INC-C03-001` e `INC-C03-002`. Su evidencia permanece cerrada, sellada y archivada.
 
-Su evidencia está cerrada, sellada y archivada.
+Los ajustes derivados fueron revalidados en `REV-INSTR-01` con resultado `5/5 PASS`. Posteriormente, `PILOT-CONV-02` se ejecutó completamente sobre el mismo baseline seguro, quedó **VÁLIDO / COMPLETADO** y su evidencia fue archivada y verificada.
 
-La secuencia operacional vigente es:
+El reset CONV → PROP fue ejecutado y finalizó `PASS`. La incidencia técnica R06 quedó resuelta antes del inicio del proceso propuesto. La revalidación metodológica del overlay v0.2 también finalizó `PASS`, conservando intacto el baseline técnico de 87 archivos.
 
-1. revalidar los instrumentos post-piloto;
-2. preparar `PILOT-CONV-02` sobre el mismo baseline seguro;
-3. ejecutar y cerrar `PILOT-CONV-02`;
-4. realizar el reset completo después de disponer de un intento convencional piloto válido;
-5. ejecutar `PILOT-PROP-01`;
-6. cerrar ambos componentes del piloto y realizar el freeze definitivo.
+Estado operacional vigente:
 
-`PILOT-CONV-02` permanece NO INICIADO.
+1. `PILOT-CONV-02`: cerrado y archivado;
+2. reset CONV → PROP: `PASS`;
+3. `PILOT-PROP-01`: `READY_TO_START / NOT_STARTED`;
+4. cronómetro de `PILOT-PROP-01`: no iniciado;
+5. siguiente paso formal: `START_PILOT_PROP_01`;
+6. freeze experimental definitivo: pendiente hasta cerrar el piloto completo.
