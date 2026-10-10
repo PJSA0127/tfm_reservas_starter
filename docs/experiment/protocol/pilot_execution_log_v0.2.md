@@ -2,7 +2,7 @@
 
 ## Estado
 
-**PARCIAL / COMPONENTE CONVENCIONAL PILOTO CERRADO / RESET PASS / PILOT-PROP-01 READY_TO_START / NOT_STARTED.**
+**PARCIAL / COMPONENTE CONVENCIONAL PILOTO CERRADO / RESET PASS / PILOT-PROP-01 IN_PROGRESS / P01 IN_PROGRESS.**
 
 ## Identificación general
 
@@ -25,7 +25,7 @@
 | Convencional piloto — intento 2 | `PILOT-CONV-02` | `VÁLIDO / COMPLETADO / ARCHIVADO` | `evidence/PILOT-CONV-02/` |
 | Reset CONV -> PROP | N/A | `PASS` | `evidence/PILOT-PROP-01/metadata/` |
 | Revalidación metodológica pre-PROP | N/A | `PASS` | `evidence/PILOT-PROP-01/metadata/` |
-| Propuesto piloto | `PILOT-PROP-01` | `READY_TO_START / NOT_STARTED` | preparación y sellos pre-run |
+| Propuesto piloto | `PILOT-PROP-01` | `OPEN / IN_PROGRESS` | `evidence/PILOT-PROP-01/` |
 
 ## PILOT-CONV-01
 
@@ -84,8 +84,27 @@ Antes de abrir `PILOT-PROP-01` se sincronizaron como overlay activo los instrume
 - revalidación metodológica: PASS;
 - sello de revalidación SHA-256: `68EE5974A6F69570101C8FA3251F25F804926645819D76D4DFB9A8F54C30CB52`.
 
+## PILOT-PROP-01 — estado parcial
+
+`PILOT-PROP-01` fue abierto formalmente el `2026-10-09T18:57:14-05:00`.
+
+Estado observado hasta el checkpoint posterior a MC-14:
+
+- P01-FUNC: `PASS`, 18/18 pruebas funcionales;
+- tiempo automático P01-FUNC: `0.21 min`;
+- P01-WALKTHROUGH: `COMPLETED_WITH_PROCEDURAL_DEVIATION`;
+- `INC-P01-001`: `OPEN / NON-BLOCKING`;
+- MC-01..MC-14: `COMPLETED / PASS`;
+- esfuerzo humano observado acumulado de P01: `68.74 min-persona`;
+- D01–D05: no introducidos;
+- P02–P10: no iniciados.
+
+La edición tardía asociada a `INC-P01-001` no se incorpora retrospectivamente al esfuerzo humano porque no tuvo cronometraje válido.
+
 ## Próximo paso
 
-`PILOT-PROP-01` permanece **READY_TO_START / NOT_STARTED**.
+La consolidación de los casos manuales queda documentada.
 
-El siguiente paso formal es `START_PILOT_PROP_01`. No se han iniciado P01, pytest de seguridad, Semgrep, ZAP ni GitHub Actions de fase `pilot`.
+El siguiente paso formal es `P01_COMMON_TECHNICAL_REVIEW`.
+
+P01 permanece `IN_PROGRESS`. No iniciar P02/ASVS explícito hasta completar las actividades comunes de P01.

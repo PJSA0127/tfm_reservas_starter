@@ -2,7 +2,7 @@
 
 ## Estado
 
-**PARCIAL — COMPONENTE CONVENCIONAL PILOTO CERRADO / PILOT-PROP-01 PENDIENTE.**
+**PARCIAL — COMPONENTE CONVENCIONAL PILOTO CERRADO / PILOT-PROP-01 EN EJECUCIÓN / P01 PARCIAL.**
 
 Este documento no constituye el cierre global del piloto.
 
@@ -22,7 +22,10 @@ Este documento no constituye el cierre global del piloto.
 | Archivo/copia/hash — CONV-02 | PASS | manifest, sello y recibo | Cerrado |
 | Reset CONV -> PROP | PASS | `evidence/PILOT-PROP-01/metadata/` | Estado inicial restaurado |
 | Revalidación metodológica pre-PROP | PASS | sello pre-PROP v0.2 | PROP READY_TO_START |
-| PILOT-PROP-01 | PENDIENTE | | READY_TO_START / NOT_STARTED |
+| PILOT-PROP-01 | OPEN / IN_PROGRESS | `evidence/PILOT-PROP-01/` | P01 IN_PROGRESS |
+| P01-FUNC — PROP-01 | 18/18 PASS | evidencia `functional/` | Cerrado |
+| P01-WALKTHROUGH — PROP-01 | COMPLETED_WITH_PROCEDURAL_DEVIATION | walkthrough + `INC-P01-001` | Incidencia abierta no bloqueante |
+| P01 casos manuales — PROP-01 | MC-01..MC-14 PASS | evidencia `manual/` | Cerrado |
 
 ## Lección de PILOT-CONV-01
 
@@ -45,6 +48,23 @@ Tiempo automático válido conocido: **0.14 min**.
 
 Estos valores son evidencia de calibración y no entran en las métricas definitivas.
 
+## Resultado parcial de PILOT-PROP-01
+
+Hasta el checkpoint posterior a MC-14:
+
+- suite funcional común: 18/18 PASS;
+- recorrido funcional común: completado con desviación procedimental `INC-P01-001`;
+- MC-01..MC-14: completados y PASS;
+- esfuerzo humano observado acumulado de P01: **68.74 min-persona**;
+- tiempo automático observado: **0.21 min**;
+- P01 continúa `IN_PROGRESS`;
+- P02–P10 no han comenzado;
+- D01–D05 no han sido introducidos.
+
+`INC-P01-001` permanece `OPEN / NON-BLOCKING`. Su efecto sobre la validez global será evaluado al cierre de `PILOT-PROP-01`.
+
+Estos valores son evidencia de calibración y no forman parte de las métricas definitivas.
+
 ## Estado del piloto global
 
 - [x] `PILOT-CONV-01` ejecutado e invalidado de forma trazable;
@@ -53,7 +73,10 @@ Estos valores son evidencia de calibración y no entran en las métricas definit
 - [x] `PILOT-CONV-02` ejecutado y cerrado como válido;
 - [x] reset CONV -> PROP ejecutado y verificado;
 - [x] workspace PROP revalidado con instrumentos comunes v0.2;
-- [ ] ejecutar `PILOT-PROP-01`;
+- [x] `PILOT-PROP-01` iniciado de forma trazable;
+- [x] P01-FUNC y MC-01..MC-14 ejecutados;
+- [ ] completar y cerrar P01;
+- [ ] ejecutar P02–P10 de `PILOT-PROP-01`;
 - [ ] cerrar resultados globales del piloto;
 - [ ] aprobar piloto y avanzar a freeze definitivo.
 
