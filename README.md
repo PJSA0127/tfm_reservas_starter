@@ -28,8 +28,14 @@ Estado operacional:
 - reset CONV → PROP: `PASS`;
 - incidencia de reset R06: `RESUELTA` antes de iniciar PROP;
 - revalidación metodológica pre-PROP: `PASS`;
-- `PILOT-PROP-01`: `READY_TO_START / NOT_STARTED`;
-- cronómetro de `PILOT-PROP-01`: `NO INICIADO`;
+- `PILOT-PROP-01`: `OPEN / IN_PROGRESS`;
+- P01-FUNC: `PASS` — 18/18;
+- P01-WALKTHROUGH: `COMPLETED_WITH_PROCEDURAL_DEVIATION` (`INC-P01-001`, no bloqueante);
+- MC-01..MC-14: `COMPLETED / PASS`;
+- P01: `IN_PROGRESS`; siguiente paso `P01_COMMON_TECHNICAL_REVIEW`;
+- P02–P10: `NOT_STARTED`;
+- esfuerzo humano observado acumulado de P01: `68.74 min-persona`;
+- tiempo automático observado de P01-FUNC: `0.21 min`;
 - versión experimental definitiva con D01–D05: `NO CREADA`.
 
 La preparación técnica, las calibraciones y el freeze pre-piloto no constituyen resultados experimentales.

@@ -17,7 +17,7 @@ La versión técnica actualmente congelada para la fase piloto es:
 
 Este baseline fue validado técnicamente mediante CAL-01 y CAL-02 antes del inicio del piloto.
 
-Su existencia y validación no implican que ningún run piloto haya comenzado.
+Su existencia y validación, por sí solas, no constituyen resultados experimentales. El estado de los runs se consulta en `ESTADO_ACTUAL_TFM.md`.
 
 ## Versión experimental definitiva
 
@@ -74,7 +74,12 @@ Durante la evaluación definitiva, el proceso convencional utilizará la misma v
 - `PILOT-CONV-02`: `VÁLIDO / COMPLETADO / ARCHIVADO`;
 - reset CONV → PROP: `PASS`;
 - revalidación metodológica pre-PROP: `PASS`;
-- `PILOT-PROP-01`: `READY_TO_START / NOT_STARTED`;
+- `PILOT-PROP-01`: `OPEN / IN_PROGRESS`;
+- P01-FUNC: `PASS` — 18/18;
+- P01-WALKTHROUGH: `COMPLETED_WITH_PROCEDURAL_DEVIATION` (`INC-P01-001`, no bloqueante);
+- MC-01..MC-14: `COMPLETED / PASS`;
+- P01: `IN_PROGRESS`; próximo paso `P01_COMMON_TECHNICAL_REVIEW`;
+- P02–P10: `NOT_STARTED`;
 - D01–D05 introducidos: `NO`;
 - versión experimental definitiva: `NO CREADA`.
 
