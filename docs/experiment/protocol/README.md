@@ -1,6 +1,6 @@
 # Protocolo experimental — índice documental v0.8
 
-**Estado general:** PILOT-CONV-01 INVALIDADO Y ARCHIVADO / REV-INSTR-01 5/5 PASS / PILOT-CONV-02 VÁLIDO Y ARCHIVADO / RESET CONV→PROP PASS / PILOT-PROP-01 OPEN / IN_PROGRESS / P01 IN_PROGRESS
+**Estado general:** PILOT-CONV-01 INVALIDADO Y ARCHIVADO / REV-INSTR-01 5/5 PASS / PILOT-CONV-02 VÁLIDO Y ARCHIVADO / RESET CONV→PROP PASS / PILOT-PROP-01 OPEN / IN_PROGRESS / P01 COMPLETED / P02 COMPLETED SEALED / NEXT PREPARE_P03_SECURITY_TESTS
 **Documento rector:** `TFM - G7.docx`
 **Fuente de verdad del estado operacional:** `ESTADO_ACTUAL_TFM.md`
 **Marco:** OWASP ASVS 5.0.0 L1
@@ -118,16 +118,17 @@ Los resultados del piloto no se utilizan para calcular las métricas definitivas
 | `pilot_protocol_v0.2.md` | Piloto previo a medición definitiva | Vigente y congelado para el piloto; PILOT-PROP-01 actualmente abierto |
 | `run_record_template_v0.1.md` | Registro por ejecución | Cerrado como plantilla |
 | `effort_log_v0.1.md` | Minutos-persona y tiempos automáticos | Instrumento cerrado; PILOT-PROP-01 contiene datos observados parciales |
-| `incident_log_v0.1.md` | Incidencias | Cerrado como instrumento; `INC-P01-001` registrada en PILOT-PROP-01 |
+| `incident_log_v0.1.md` | Incidencias | Cerrado como instrumento; `INC-P01-001` e `INC-P01-002` preservadas en PILOT-PROP-01 |
 | `pilot_execution_log_v0.2.md` | Registro de runs piloto y reset | PILOT-CONV-01 invalidado; PILOT-CONV-02 válido y archivado; reset PASS; PILOT-PROP-01 `OPEN / IN_PROGRESS` |
-| `pilot_results_v0.2.md` | Consolidación parcial de resultados del piloto | PILOT-PROP-01 iniciado; P01-FUNC y MC-01..MC-14 documentados; P01 aún abierto |
+| `pilot_results_v0.2.md` | Consolidación parcial de resultados del piloto | Archivo de checkpoint anterior; P01/P02 posteriores constan en los registros vivos y sello P02 |
 | `evidence_archival_v0.1.md` | Conservación de evidencias | Estructura definida; rutas primaria/secundaria preparadas y verificadas |
 | `ci_execution_v0.1.md` | Ejecución CI del proceso propuesto | CAL-01/CAL-02 validadas; pilot y proposed-definitive pendientes |
 | `environment_manifest_v0.1.md` | Versiones, dependencias, host y digests | Freeze técnico pre-piloto validado; versión experimental definitiva pendiente |
 | `pre_github_validation_plan_v0.1.md` | Validación técnica pre-GitHub | Histórico; validación local completada y calibración remota realizada posteriormente |
 | `protocol_freeze_checklist_v0.2.md` | Condiciones de preparación y congelación | Convencional piloto válido cerrado; reset PASS; PROP preparado y revalidado |
 | `audit_transversal_corrections_v0.1.md` | Registro de correcciones metodológicas transversales | Histórico vigente; debe conservar trazabilidad de las correcciones |
-| `pilot_documentary_audit_checkpoint_20261009.md` | Auditoría documental de pausa durante PILOT-PROP-01 | Vigente; documenta erratas sin alterar evidencia histórica |
+| `pilot_documentary_audit_checkpoint_20261009.md` | Auditoría documental de pausa durante PILOT-PROP-01 | Checkpoint histórico; documenta erratas sin alterar evidencia histórica |
+| `p02_postseal_documentary_checkpoint_20261010.md` | Estado documental posterior al sello P02 | Nuevo checkpoint de actualización de índices y reglas de continuidad hacia P03, sin modificar instrumentos congelados |
 
 ## Estado experimental
 
@@ -175,7 +176,7 @@ Los ajustes derivados fueron revalidados en `REV-INSTR-01` con resultado `5/5 PA
 
 El reset CONV → PROP fue ejecutado y finalizó `PASS`. La incidencia técnica R06 quedó resuelta antes del inicio del proceso propuesto. La revalidación metodológica del overlay v0.2 también finalizó `PASS`, conservando intacto el baseline técnico de 87 archivos.
 
-Estado operacional vigente:
+Estado operacional de ese checkpoint histórico (superado por la actualización posterior a P02; consultar el bloque vigente añadido abajo):
 
 1. `PILOT-CONV-02`: cerrado y archivado;
 2. reset CONV → PROP: `PASS`;
@@ -188,3 +189,19 @@ Estado operacional vigente:
 9. siguiente paso formal: `P01_COMMON_TECHNICAL_REVIEW`;
 10. P02–P10: `NOT_STARTED`;
 11. freeze experimental definitivo: pendiente hasta cerrar el piloto completo.
+
+
+## Actualización operacional posterior al sello P02 — 2026-10-10 (VIGENTE)
+
+- `PILOT-PROP-01 = OPEN / IN_PROGRESS`; baseline seguro sin D01–D05.
+- `P01 = COMPLETED`; revisión técnica común terminada con `NO_NEW_FINDINGS`. Se conservan sin reclasificación retrospectiva `INC-P01-001` e `INC-P01-002`, ambas no bloqueantes.
+- `P02 = COMPLETED / SEALED`; 6/6 requisitos ASVS revisados; 0 incidencias y 0 desviaciones en P02.
+- Esfuerzo humano observado: P01 `119.09`, P02 `127.05`, acumulado `246.14 min-persona`; automático conocido `0.21 min`.
+- Sello P02: `evidence/PILOT-PROP-01/metadata/p02_closure_seal_20261010.md`, SHA-256 `AF7EEC4DA51B40D7528F92CC452F760B8FEAA5E9AD0F48D48FCDA4924146F0C0`.
+- Manifiesto P02: `evidence/PILOT-PROP-01/hashes/p02_closure_manifest_20261010.txt`, SHA-256 `CC5A8998D23FE89BED2C7DFD933E4C08C201598862BB14440A8F49A24D958BFB`.
+- Los registros de P02 son inmutables; P03 y fases posteriores deben generar nuevos artefactos para proseguir la trazabilidad sin editar la matriz sellada.
+- `P03 = NOT_STARTED`, `P04–P06 = NOT_STARTED`, P07 condicional no activado, `P08–P10 = NOT_STARTED`.
+- `NEXT_FORMAL_STEP = PREPARE_P03_SECURITY_TESTS`: preflight de solo lectura del workspace `D:\Repositorios\tfm_reservas_pilot_prop`, de la batería congelada y del aislamiento `db_test`.
+- Los ajustes de nomenclatura `v0.1` frente a versiones internas quedan diferidos hasta después del piloto.
+
+La referencia histórica del commit Git anterior a esta actualización es `8fa2451c414376139ecfe331a33201a385f6c846`. La actualización de este índice solo adquirirá condición de checkpoint Git una vez instalada y verificada; no se atribuye un nuevo commit anticipadamente.

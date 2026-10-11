@@ -78,9 +78,17 @@ Durante la evaluación definitiva, el proceso convencional utilizará la misma v
 - P01-FUNC: `PASS` — 18/18;
 - P01-WALKTHROUGH: `COMPLETED_WITH_PROCEDURAL_DEVIATION` (`INC-P01-001`, no bloqueante);
 - MC-01..MC-14: `COMPLETED / PASS`;
-- P01: `IN_PROGRESS`; próximo paso `P01_COMMON_TECHNICAL_REVIEW`;
-- P02–P10: `NOT_STARTED`;
+- P01: `COMPLETED`, revisión técnica común `NO_NEW_FINDINGS`;
+- incidencias P01 preservadas: `INC-P01-001 = OPEN / NON-BLOCKING`; `INC-P01-002 = DOCUMENTED / NON-BLOCKING`;
+- P02: `COMPLETED / SEALED`, revisión ASVS `6/6`, sin incidencias ni desviaciones de P02;
+- P03–P06 y P08–P10: `NOT_STARTED`; P07: `CONDITIONAL / NOT_TRIGGERED`;
+- esfuerzo observado: P01 `119.09`, P02 `127.05`, total `246.14 min-persona`; tiempo automático conocido `0.21 min`;
+- siguiente paso formal: `PREPARE_P03_SECURITY_TESTS` (preflight de solo lectura);
 - D01–D05 introducidos: `NO`;
 - versión experimental definitiva: `NO CREADA`.
 
 No debe adelantarse la preparación de la versión experimental definitiva mientras no hayan concluido ambos pilotos y las actividades de cierre posteriores previstas por el protocolo.
+
+## Regla documental posterior a P02
+
+P02 quedó sellado el `2026-10-10T18:30:42-05:00` con SHA-256 del sello `AF7EEC4DA51B40D7528F92CC452F760B8FEAA5E9AD0F48D48FCDA4924146F0C0`. No modificar sus evidencias. Los resultados de fases posteriores se incorporarán como artefactos adicionales, sin reescribir la matriz P02. Las normalizaciones de nombres/versiones de instrumentos se difieren hasta después del piloto.

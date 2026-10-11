@@ -32,10 +32,15 @@ Estado operacional:
 - P01-FUNC: `PASS` — 18/18;
 - P01-WALKTHROUGH: `COMPLETED_WITH_PROCEDURAL_DEVIATION` (`INC-P01-001`, no bloqueante);
 - MC-01..MC-14: `COMPLETED / PASS`;
-- P01: `IN_PROGRESS`; siguiente paso `P01_COMMON_TECHNICAL_REVIEW`;
-- P02–P10: `NOT_STARTED`;
-- esfuerzo humano observado acumulado de P01: `68.74 min-persona`;
-- tiempo automático observado de P01-FUNC: `0.21 min`;
+- P01: `COMPLETED`, incluida la revisión técnica común (`NO_NEW_FINDINGS`);
+- `INC-P01-001`: `OPEN / NON-BLOCKING`; `INC-P01-002`: `DOCUMENTED / NON-BLOCKING`;
+- P02: `COMPLETED / SEALED`; revisión ASVS `6/6` y matriz actualizada durante la actividad;
+- P02: incidencias `0`, desviaciones procedimentales `0`, esfuerzo humano `127.05 min-persona`;
+- P03–P06 y P08–P10: `NOT_STARTED`; P07: `CONDITIONAL / NOT_TRIGGERED`;
+- esfuerzo humano P01 observado: `119.09 min-persona`;
+- esfuerzo humano total acumulado PROP: `246.14 min-persona`;
+- tiempo automático observado acumulado: `0.21 min`;
+- siguiente paso formal: `PREPARE_P03_SECURITY_TESTS` (preflight **solo lectura**, sin ejecutar aún pytest);
 - versión experimental definitiva con D01–D05: `NO CREADA`.
 
 La preparación técnica, las calibraciones y el freeze pre-piloto no constituyen resultados experimentales.
@@ -233,6 +238,8 @@ No deben versionarse archivos o resultados locales que no formen parte deliberad
 
 La evidencia experimental se gestiona conforme a `docs/experiment/protocol/evidence_archival_v0.1.md`.
 
+La matriz de P02 y su sello SHA-256 son inmutables. Las evidencias de P03–P06 se incorporarán como artefactos nuevos de continuación de trazabilidad. Los nombres/versiones históricos de instrumentos congelados no se normalizarán durante este piloto.
+
 ## Proceso convencional
 
 El proceso convencional utiliza un workspace sanitizado construido mediante allowlist.
@@ -258,7 +265,7 @@ Durante el proceso convencional está prohibido utilizar como guía:
 
 ## Proceso propuesto
 
-El workspace pre-piloto del proceso propuesto está preparado, pero su runtime no se inicia antes del cierre de `PILOT-CONV-01` y del reset formal correspondiente.
+El workspace de ejecución del proceso propuesto es `D:\Repositorios\tfm_reservas_pilot_prop`. El proceso convencional, el reset y P01–P02 ya se ejecutaron; antes de P03 se verificará su estado mediante un preflight de solo lectura, sin reconstrucción ni reset de la base de datos principal.
 
 El proceso propuesto incorpora, además de las actividades comunes:
 
@@ -272,11 +279,7 @@ El proceso propuesto incorpora, además de las actividades comunes:
 
 ## Secuencia del piloto
 
-La secuencia vigente es:
-
-`revalidación mínima → C00 → C01 → C02 → C03 → C04 → C05 → C06 → cierre y archivo → reset → PILOT-PROP-01`
-
-Antes de C00 no deben repetirse freezes, hashes, calibraciones o reconstrucciones ya cerradas salvo evidencia concreta de inconsistencia.
+La secuencia histórica realizada incluye revalidación convencional, C00–C06, cierre/archivo de `PILOT-CONV-02`, reset y P01–P02 del proceso propuesto. **Estado vigente:** P02 `COMPLETED / SEALED`; el siguiente paso es preparar P03 con un preflight no invasivo. No repetir freezes, calibraciones, fases ni reconstrucciones ya cerradas salvo evidencia concreta de inconsistencia.
 
 Los resultados y tiempos de ejecución propiamente dichos del piloto no forman parte de la comparación experimental definitiva.
 
