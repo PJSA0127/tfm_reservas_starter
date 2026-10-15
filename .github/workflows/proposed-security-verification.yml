@@ -92,7 +92,7 @@ jobs:
 
       - name: Upload functional evidence
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: functional-${{ inputs.phase }}-${{ github.run_id }}
           path: |
@@ -171,7 +171,7 @@ jobs:
 
       - name: Upload security-test evidence
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: security-tests-${{ inputs.phase }}-${{ github.run_id }}
           path: |
@@ -271,7 +271,7 @@ jobs:
 
       - name: Upload SAST evidence
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: semgrep-${{ inputs.phase }}-${{ github.run_id }}
           path: |
@@ -410,7 +410,7 @@ jobs:
 
       - name: Upload DAST evidence
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: zap-dast-${{ inputs.phase }}-${{ github.run_id }}
           path: |
