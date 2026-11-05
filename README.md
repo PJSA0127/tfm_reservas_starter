@@ -1,16 +1,32 @@
 # TFM Reservas — laboratorio experimental de seguridad
 
-Aplicación web demostrativa y laboratorio reproducible para el TFM **Trazabilidad de requisitos de seguridad y verificación continua basada en OWASP ASVS**.
+Aplicación web demostrativa y laboratorio reproducible para el TFM **Evaluación de un proceso de verificación continua basado en OWASP ASVS 5.0.0 y trazabilidad requisito-prueba-evidencia en una aplicación web**.
 
 El proyecto utiliza un subconjunto de seis requisitos OWASP ASVS 5.0.0 L1 y compara un proceso convencional de referencia con un proceso de verificación continua propuesto.
 
-El documento académico rector es `TFM - G7.docx`.
+El documento académico rector es `TFM - 7B.docx`, ratificado el 25/10/2026. La copia recibida para continuidad el 04/11/2026 (`TFM - 7B(5).docx`) tiene SHA-256 `8A601A7D54A8D28E5DAE7D2B1D44507EF107B196172D1105F2B85F760CBFAB7A`. Los hashes `69EB8137E60D714732D716D69A9B36404DBF986066F9E02D1D685D4612CFAEDE` y `0B8B1FC6ECB3DF17859B516991C64F7E3BCC79D38B9FE70245E8370956066332` identifican copias documentadas anteriores; sus checkpoints no se reescriben.
 
 El estado operacional vigente de las ejecuciones se mantiene en `ESTADO_ACTUAL_TFM.md`.
 
-## Estado actual
+## Estado operacional verificado — cierre P10 del 14 de octubre de 2026
 
-El repositorio se encuentra en estado **piloto en curso / transición completada al proceso propuesto**.
+**Estado del experimento:** `PILOT-CONV-02 = VALID / COMPLETED / ARCHIVED` y `PILOT-PROP-01 = VALID_WITH_DOCUMENTED_LIMITATION / COMPLETED / ARCHIVED / VERIFIED / SEALED`. El primer intento convencional `PILOT-CONV-01` se mantiene `INVALIDATED / ARCHIVED` y excluido de la comparación válida.
+
+- P01–P06, P08, P09 y P10: completados y documentados conforme a su alcance. P02 está sellado.
+- P07: único reintento técnico ZAP aprobado, consumido dentro de P05; no es una actividad adicional que deba sumarse dos veces.
+- `INC-P01-001`: cerrada mediante una disposición nueva de P10, **con limitación de medición**; su registro histórico abierto fue preservado. Los ~44 segundos estimados retrospectivamente no se imputaron al esfuerzo observado.
+- Esfuerzo humano de calibración: convencional válido **146,71 minutos-persona**; propuesto **604,22 minutos-persona**, de los cuales **70,48** corresponden a P10. **No** utilizar como métricas definitivas M1/M2/M3.
+- Evidencia `PILOT-PROP-01`: **250/250 archivos**, manifiesto final base de **248 entradas**, ZIP final de **250 entradas**; sello SHA-256 `0D4EB7D54ACBA33F3B47FF54149748A967098390BC58DB17609BB82EDA3793B9`. El ZIP y sus archivos fueron comprobados de forma independiente a partir del paquete recibido el 25/10/2026.
+- `D01–D05`: **no introducidos en el baseline seguro**. Versión experimental definitiva y freeze definitivo: **no documentados como aprobados**. `DEF-CONV-01` y `DEF-PROP-01`: **no iniciados**.
+- `NEXT_FORMAL_STEP = POST_PILOT_REVIEW_AND_FREEZE_PREPARATION` (revisión y preparación, **no** autorización automática de ejecución).
+- Estado Git del snapshot de continuidad y verificación local del 04/11/2026 a las 22:19 (UTC−05:00): rama `main`, `HEAD` y referencia local `origin/main` en `124a45914be5db7eba86c83a751f3c367c560548`. **Antes de esta conciliación**, había tres README modificados y un documento nuevo sin seguimiento; el árbol no estaba limpio. La igualdad de referencias locales no demuestra el estado del remoto GitHub, y no acredita un commit ni push nuevo.
+- **Autoridad académica vigente:** `TFM - 7B.docx`, ratificada el 25/10/2026. La referencia anterior `TFM - G7.docx` se conserva exclusivamente como historial de versiones, sin sustituir el registro original.
+
+**Fuentes:** `evidence/PILOT-PROP-01/metadata/final_seal.txt`, manifiesto, archivo y recibo final; `ESTADO_ACTUAL_TFM.md` (último checkpoint vigente disponible), y auditoría pospiloto del 25/10/2026. La publicación efectiva de cualquier cambio documental requiere comprobar el commit y el push por separado.
+
+## Estado histórico del checkpoint P02 — 10 de octubre de 2026 (NO VIGENTE)
+
+El repositorio se encontraba en estado **piloto en curso / transición completada al proceso propuesto**.
 
 Baseline técnico congelado:
 
@@ -238,7 +254,7 @@ No deben versionarse archivos o resultados locales que no formen parte deliberad
 
 La evidencia experimental se gestiona conforme a `docs/experiment/protocol/evidence_archival_v0.1.md`.
 
-La matriz de P02 y su sello SHA-256 son inmutables. Las evidencias de P03–P06 se incorporarán como artefactos nuevos de continuación de trazabilidad. Los nombres/versiones históricos de instrumentos congelados no se normalizarán durante este piloto.
+La matriz de P02 y su sello SHA-256 son inmutables. Las evidencias de P03–P06 se incorporaron mediante artefactos nuevos de continuación de trazabilidad, sin modificar la matriz P02. Los nombres/versiones históricos de instrumentos congelados no se normalizarán durante este piloto.
 
 ## Proceso convencional
 
@@ -265,7 +281,7 @@ Durante el proceso convencional está prohibido utilizar como guía:
 
 ## Proceso propuesto
 
-El workspace de ejecución del proceso propuesto es `D:\Repositorios\tfm_reservas_pilot_prop`. El proceso convencional, el reset y P01–P02 ya se ejecutaron; antes de P03 se verificará su estado mediante un preflight de solo lectura, sin reconstrucción ni reset de la base de datos principal.
+El workspace de ejecución del proceso propuesto es `D:\Repositorios\tfm_reservas_pilot_prop`. El proceso convencional, el reset y P01–P10 ya fueron ejecutados y archivados conforme a las evidencias; el preflight previo a P03 es un checkpoint histórico, no un paso pendiente.
 
 El proceso propuesto incorpora, además de las actividades comunes:
 
@@ -279,24 +295,23 @@ El proceso propuesto incorpora, además de las actividades comunes:
 
 ## Secuencia del piloto
 
-La secuencia histórica realizada incluye revalidación convencional, C00–C06, cierre/archivo de `PILOT-CONV-02`, reset y P01–P02 del proceso propuesto. **Estado vigente:** P02 `COMPLETED / SEALED`; el siguiente paso es preparar P03 con un preflight no invasivo. No repetir freezes, calibraciones, fases ni reconstrucciones ya cerradas salvo evidencia concreta de inconsistencia.
+La secuencia realizada incluye revalidación convencional, C00–C06, archivo de `PILOT-CONV-02`, reset, P01–P10 del propuesto y archivo final de `PILOT-PROP-01`. **Estado vigente:** P10 `COMPLETED / ARCHIVED / SEALED`; el siguiente paso es la revisión pospiloto y preparación del freeze definitivo. No repetir freezes, calibraciones, fases ni reconstrucciones ya cerradas salvo evidencia concreta de inconsistencia.
 
 Los resultados y tiempos de ejecución propiamente dichos del piloto no forman parte de la comparación experimental definitiva.
 
 ## Versión experimental definitiva
 
-D01–D05 **todavía no han sido introducidos**.
+En los artefactos auditados no existe acreditación de que la variante experimental definitiva con D01–D05 haya sido construida, validada y congelada. Esta ausencia documental no sustituye la verificación de workspaces futuros.
 
-La versión experimental definitiva se preparará únicamente después de:
+La preparación y autorización de la evaluación definitiva seguirá este orden, sin reabrir pilotos ni alterar evidencia sellada:
 
-1. completar ambos pilotos;
-2. analizar sus incidencias y lecciones;
-3. aplicar únicamente los ajustes permitidos;
-4. versionar los instrumentos modificados, si corresponde;
-5. congelar el protocolo experimental definitivo;
-6. introducir de forma controlada D01–D05;
-7. validar la funcionalidad y correspondencia de los defectos;
-8. fijar el commit/tag experimental definitivo.
+1. conservar el cierre de ambos pilotos y revisar sus incidencias y lecciones;
+2. aprobar y versionar los ajustes metodológicos e instrumentos derivados, cuando proceda;
+3. preparar un workspace o rama nuevos y aislados del baseline piloto;
+4. introducir de forma controlada D01–D05 en la variante experimental definitiva;
+5. validar funcionalidad, manifestación y correspondencia de los defectos con los requisitos ASVS, sin contabilizar esta validación como ejecución definitiva;
+6. congelar la variante **ya validada** junto con el código, catálogo, pruebas, instrumentos, datos, dependencias, configuraciones, workflow, criterios y condiciones iniciales; registrar commit, tag y manifiestos verificables;
+7. obtener aprobación formal del freeze definitivo y, solo entonces, autorizar `DEF-CONV-01` seguido de `DEF-PROP-01` bajo condiciones iniciales equivalentes.
 
 La misma versión experimental definitiva será utilizada como origen técnico para:
 
@@ -309,7 +324,7 @@ No se modificará el código entre ambas evaluaciones definitivas.
 
 La jerarquía vigente es:
 
-`TFM - G7 → PROTOCOLO EXPERIMENTAL → INSTRUMENTOS / DOCUMENTACIÓN TÉCNICA → CÓDIGO / AUTOMATIZACIÓN / EJECUCIONES / EVIDENCIAS`
+`TFM - 7B → PROTOCOLO EXPERIMENTAL → INSTRUMENTOS / DOCUMENTACIÓN TÉCNICA → CÓDIGO / AUTOMATIZACIÓN / EJECUCIONES / EVIDENCIAS`
 
 Un artefacto inferior no puede redefinir una decisión establecida por un nivel superior.
 

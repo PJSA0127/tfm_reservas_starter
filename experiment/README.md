@@ -4,11 +4,22 @@ Este directorio contiene documentación de control relacionada con la construcci
 
 El estado operacional vigente de las ejecuciones se mantiene en `ESTADO_ACTUAL_TFM.md`.
 
-## Nomenclatura vigente
+## Estado operacional pospiloto verificado — 25 de octubre de 2026
+
+- `PILOT-CONV-02`: **VALID / COMPLETED / ARCHIVED**; `PILOT-PROP-01`: **VALID_WITH_DOCUMENTED_LIMITATION / ARCHIVED / VERIFIED / SEALED**. El sello P10 fue aplicado el 14/10/2026.
+- `PILOT-PROP-01`: 250 archivos, manifiesto de 248 entradas y ZIP de 250, todos íntegros en la copia primaria adjuntada. El último `PASS` de sincronización OneDrive fue reportado en el cierre del 14/10; **no** se ha comprobado OneDrive en vivo el 25/10.
+- Esfuerzo humano de los pilotos: **146,71** y **604,22 minutos-persona**, ambos **solo calibración**. M1=cobertura, M2=esfuerzo humano, M3=detección; las métricas definitivas están pendientes.
+- `INC-P01-001` cerrada mediante disposición P10 con limitación de medición, sin cambiar su registro histórico.
+- D01–D05 **no estaban introducidos en el baseline del piloto**. Variante con los defectos, freeze definitivo, `DEF-CONV-01` y `DEF-PROP-01`: **pendientes y no autorizados por esta actualización documental**.
+- `NEXT_FORMAL_STEP = POST_PILOT_REVIEW_AND_FREEZE_PREPARATION`; no repetir pilotaje ni iniciar tests definitivos.
+
+**Procedencia:** estado contrastado con la evidencia final del piloto incluida en el ZIP del 25/10/2026. Este índice descriptivo no aprueba el freeze definitivo ni acredita por sí mismo un nuevo commit/push. Los datos del 10/10/2026 son checkpoints históricos, no el estado operativo vigente.
+
+## Nomenclatura histórica y planificación de variantes
 
 ### Baseline seguro pre-piloto
 
-La versión técnica actualmente congelada para la fase piloto es:
+La versión técnica que se congeló para la fase piloto (ya finalizada) fue:
 
 - tag: `pre-pilot-freeze-v0.1`;
 - commit técnico: `32d27a04305617f8fea031704e24d7e68ce9c451`;
@@ -21,18 +32,9 @@ Su existencia y validación, por sí solas, no constituyen resultados experiment
 
 ## Versión experimental definitiva
 
-La versión destinada a la evaluación definitiva todavía no ha sido creada.
+No consta una versión experimental definitiva construida, verificada y aprobada en las fuentes auditadas. La construcción y la validación controlada de D01–D05 forman parte de los preparativos posteriores al piloto, todavía pendientes de autorización y freeze.
 
-Después de:
-
-1. completar y archivar un intento convencional piloto válido (`PILOT-CONV-02`);
-2. ejecutar y verificar el reset CONV → PROP;
-3. completar `PILOT-PROP-01`;
-4. analizar las incidencias y lecciones del piloto;
-5. aplicar únicamente los ajustes permitidos;
-6. congelar el protocolo experimental definitivo;
-
-se incorporarán de forma controlada D01–D05 y se fijará mediante commit/tag la versión experimental definitiva.
+Los tres primeros hitos (piloto convencional válido, reset CONV → PROP y piloto propuesto) **ya finalizaron**. Antes de iniciar los runs definitivos falta revisar las incidencias y lecciones aprendidas, autorizar los ajustes necesarios, incorporar y validar los cinco defectos controlados en la variante de laboratorio, y congelar código, instrumentos, datos, configuración y criterios mediante commit/tag y manifiestos verificables. El orden exacto de autorización y congelación depende del protocolo vigente; este README no lo reemplaza.
 
 Esa misma versión constituirá el origen técnico de:
 
@@ -68,7 +70,7 @@ Durante `PILOT-CONV-01`, además:
 
 Durante la evaluación definitiva, el proceso convencional utilizará la misma versión experimental con D01–D05 que el proceso propuesto, pero continuará sujeto a las restricciones anteriores respecto del conocimiento y mecanismos exclusivos del proceso propuesto.
 
-## Estado actual
+## Estado histórico del checkpoint P02 — 10 de octubre de 2026 (NO VIGENTE)
 
 - `PILOT-CONV-01`: `INVALIDATED - EXCLUDED FROM FINAL COMPARISON` / archivado;
 - `PILOT-CONV-02`: `VÁLIDO / COMPLETADO / ARCHIVADO`;
@@ -87,8 +89,8 @@ Durante la evaluación definitiva, el proceso convencional utilizará la misma v
 - D01–D05 introducidos: `NO`;
 - versión experimental definitiva: `NO CREADA`.
 
-No debe adelantarse la preparación de la versión experimental definitiva mientras no hayan concluido ambos pilotos y las actividades de cierre posteriores previstas por el protocolo.
+Los dos pilotos ya concluyeron; la revisión pospiloto y los controles del freeze definitivo siguen pendientes. La variante definitiva solo podrá prepararse mediante decisiones y validaciones autorizadas.
 
 ## Regla documental posterior a P02
 
-P02 quedó sellado el `2026-10-10T18:30:42-05:00` con SHA-256 del sello `AF7EEC4DA51B40D7528F92CC452F760B8FEAA5E9AD0F48D48FCDA4924146F0C0`. No modificar sus evidencias. Los resultados de fases posteriores se incorporarán como artefactos adicionales, sin reescribir la matriz P02. Las normalizaciones de nombres/versiones de instrumentos se difieren hasta después del piloto.
+P02 quedó sellado el `2026-10-10T18:30:42-05:00` con SHA-256 del sello `AF7EEC4DA51B40D7528F92CC452F760B8FEAA5E9AD0F48D48FCDA4924146F0C0`. No modificar sus evidencias. Los resultados posteriores se incorporaron como artefactos adicionales, sin reescribir la matriz P02. Las normalizaciones de nombres/versiones de instrumentos se difieren hasta después del piloto.
